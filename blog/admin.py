@@ -8,11 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
 
     def tags_list_as_string(self, obj):
-        tags = []
-        for tag in obj.tags.all():
-            tags.append(tag.title)
-
-        return ', '.join(tags)
+        return ', '.join([tag.title for tag in obj.tags.all()])
     tags_list_as_string.short_description = 'Tags'
 
     list_display = ('title', 'author', 'pub_date', 'upd_date', 'tags_list_as_string',)
