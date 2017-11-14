@@ -26,3 +26,7 @@ footer {
     height: auto;
   } 
 }
+
+a:hover {
+  text-decoration: none;
+}
