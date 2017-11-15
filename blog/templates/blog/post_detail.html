@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load bootstrap3 %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -17,11 +18,14 @@
   <hr>
 
   <h4>Leave a Comment:</h4>
-  <form role="form">
-    <div class="form-group">
-      <textarea class="form-control" rows="3" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Submit</button>
+  <form action="{% url 'blog:comment_add' post.id %}" method="post" class="form" role="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-success">
+        Submit
+      </button>
+    {% endbuttons %}
   </form>
   <br><br>
       
