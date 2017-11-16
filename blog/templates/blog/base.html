@@ -12,6 +12,7 @@
 </head>
 <body>
   {% url 'blog:index' as idx %}
+  {% url 'blog:post_add' as pad %}
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-3 sidenav">
@@ -21,6 +22,7 @@
           <li><a href="#section2">Friends</a></li>
           <li><a href="#section3">Family</a></li>
           <li><a href="#section3">Photos</a></li>
+          <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
         </ul><br>
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search Blog..">

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 
 
 class PostListView(ListView):
@@ -36,3 +36,16 @@ class CommentCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.object.post.id})
+
+
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name_suffix = '_create'
+
+    def form_valid(self, form):
+        form.instance.author = 'John Smith'
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog:post_detail', kwargs={'pk': self.object.id})

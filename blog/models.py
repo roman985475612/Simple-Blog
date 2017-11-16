@@ -45,7 +45,7 @@ class Tag(models.Model):
         (INFO, 'Light blue'),
         (WARNING, 'Yellow'),
         (DANGER, 'Red')
-    ) 
+    )
     color = models.CharField(max_length=10,
                              choices=TAG_COLOR_CHOICES,
                              default=DEFAULT)

@@ -24,3 +24,10 @@ class PostDetailViewTest(TestCase):
         post = Post.objects.get(title='Header')
         response = self.client.get(reverse('blog:post_detail', kwargs={'pk': post.id}))
         self.assertEqual(response.status_code, 200)
+
+
+class PostCreateViewTest(TestCase):
+
+    def test_post_create_view(self):
+        response = self.client.get(reverse('blog:post_add'))
+        self.assertEqual(response.status_code, 200)
