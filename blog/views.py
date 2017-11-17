@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 
@@ -48,3 +48,12 @@ class PostCreateView(CreateView):
         form.instance.author = 'John Smith'
         return super().form_valid(form)
 
+
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = 'Editing a post'
+        return context

@@ -10,4 +10,6 @@ urlpatterns = [
     url('^post/(?P<pk>\d+)/comment-add/$',
         views.CommentCreateView.as_view(), name='comment_add'),
     url('^post-add/$', views.PostCreateView.as_view(), name='post_add'),
+    url('^post/(?P<pk>\d+)/post-edit/$', views.PostUpdateView.as_view(),
+        name='post_edit')
 ]
