@@ -38,7 +38,11 @@ class CommentCreateView(CreateView):
 class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
-    template_name_suffix = '_create'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = 'Add new post'
+        return context
 
     def form_valid(self, form):
         form.instance.author = 'John Smith'
