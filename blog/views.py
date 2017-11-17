@@ -1,6 +1,6 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from .models import Post, Comment
 from .forms import CommentForm, PostForm
@@ -57,3 +57,8 @@ class PostUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['header'] = 'Editing a post'
         return context
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
