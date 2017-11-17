@@ -34,9 +34,6 @@ class CommentCreateView(CreateView):
         form.instance.author = 'John Smith'
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('blog:post_detail', kwargs={'pk': self.object.post.id})
-
 
 class PostCreateView(CreateView):
     model = Post
@@ -47,5 +44,3 @@ class PostCreateView(CreateView):
         form.instance.author = 'John Smith'
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('blog:post_detail', kwargs={'pk': self.object.id})

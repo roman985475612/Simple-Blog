@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -13,6 +14,9 @@ class Post(models.Model):
         db_table = 'posts'
         ordering = ['-pub_date']
 
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', kwargs={'pk': self.id})
+
     def __str__(self):
         return '{} by {}'.format(self.title[:15], self.author)
 
@@ -26,6 +30,9 @@ class Comment(models.Model):
     class Meta:
         db_table = 'comments'
         ordering = ['-pub_date']
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', kwargs={'pk': self.post.id})
 
     def __str__(self):
         return '{} by {}'.format(self.text[:15], self.author)
