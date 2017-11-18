@@ -7,7 +7,6 @@
     
     <div class="col-sm-9">
         <h3>{{ header }}</h3>
-        <a href="{% url 'blog:tag_add' %}" target="_blank" class="btn btn-link">Add tag</a>
         <form action="" method="post" class="form" role="form">
             {% csrf_token %}
             {% bootstrap_form form %}

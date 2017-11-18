@@ -14,4 +14,5 @@ urlpatterns = [
         name='post_edit'),
     url('^post/(?P<pk>\d+)/delete/$', views.PostDeleteView.as_view(),
         name='post_delete'),
+    url('^tag-add/$', views.TagCreateView.as_view(), name='tag_add'),
 ]

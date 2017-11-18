@@ -2,8 +2,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
-from .models import Post, Comment
-from .forms import CommentForm, PostForm
+from .models import Post, Comment, Tag
+from .forms import CommentForm, PostForm, TagForm
 
 
 class PostListView(ListView):
@@ -62,3 +62,14 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
+
+
+class TagCreateView(CreateView):
+    model = Tag
+    form_class = TagForm
+    success_url = reverse_lazy('blog:index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = "Adding tag"
+        return context
