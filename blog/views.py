@@ -64,10 +64,14 @@ class PostDeleteView(DeleteView):
     success_url = reverse_lazy('blog:index')
 
 
+class TagListView(ListView):
+    model = Tag
+
+
 class TagCreateView(CreateView):
     model = Tag
     form_class = TagForm
-    success_url = reverse_lazy('blog:index')
+    success_url = reverse_lazy('blog:tags')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

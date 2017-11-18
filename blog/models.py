@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 
@@ -56,11 +57,16 @@ class Tag(models.Model):
     color = models.CharField(max_length=10,
                              choices=TAG_COLOR_CHOICES,
                              default=DEFAULT)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=20, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
     class Meta:
         db_table = 'tags'
         ordering = ['title']
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return '{}'.format(self.title)

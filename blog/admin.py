@@ -28,3 +28,4 @@ class CommentAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('title', 'color',)
     list_filter = ('color',)
+    prepopulated_field = {'slug': ('title',)}
