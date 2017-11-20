@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -7,7 +8,24 @@ from .forms import CommentForm, PostForm, TagForm
 
 
 class PostListView(ListView):
-    model = Post
+
+    template_name = 'blog/post_list.html'
+
+    def get_queryset(self):
+        self.posts = Post.objects.all()
+        self.query = self.request.GET.get('q') 
+        if self.query:
+            self.posts = self.posts.filter(
+                Q(title__icontains=self.query)|
+                Q(text__icontains=self.query)
+            ).order_by('-upd_date')
+
+        return self.posts
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.query
+        return context
 
 
 class PostDetailView(DetailView):

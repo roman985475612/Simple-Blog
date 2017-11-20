@@ -23,14 +23,18 @@
           <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
           <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
         </ul><br>
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search Blog..">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>
-        </div>
+
+        <form action="{% url 'blog:index' %}" class="form" role="form">
+          <div class="input-group">
+            <input type="text" name="q" class="form-control" value="{{ query|default:"" }}" placeholder="Search Blog..">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+
       </div>
 
       {% block content %}{% endblock %}
