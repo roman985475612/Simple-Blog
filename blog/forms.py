@@ -9,7 +9,13 @@ class CommentForm(ModelForm):
         model = Comment
         fields = ['text']
         labels = {'text': '', }
-        widgets = {'text': Textarea(attrs={'cols': 20, 'rows': 3}), }
+        widgets = {
+            'text': Textarea(attrs={
+                'cols': 20,
+                'rows': 3,
+                'placeholder': 'Add a public commint...'
+            }),
+        }
 
 
 class PostForm(ModelForm):

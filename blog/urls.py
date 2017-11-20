@@ -16,4 +16,6 @@ urlpatterns = [
         name='post_delete'),
     url('^tag/add/$', views.TagCreateView.as_view(), name='tag_add'),
     url('^tag/$', views.TagListView.as_view(), name='tags'),
+    url('^tag/(?P<slug>[\w-]+)/$', views.PostByTagListView.as_view(),
+        name='tag_detail'),
 ]

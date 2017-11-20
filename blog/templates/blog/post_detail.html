@@ -10,7 +10,8 @@
   <h2>{{ post.title }}</h2>
   <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
   {% for tag in post.tags.all %}
-      <span class="label label-{{ tag.color }}">{{ tag.title }}</span>
+    <a href="{% url 'blog:tag_detail' tag.slug %}" 
+       class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
   {% endfor %}
   <br><br>
   <p>{{ post.text }}</p>
@@ -18,8 +19,9 @@
   <a href="{% url 'blog:post_edit' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
   <a href="{% url 'blog:post_delete' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
   <hr>
-  <h4>Leave a Comment:</h4>
-  <form action="{% url 'blog:comment_add' post.id %}" method="post" class="form" role="form">
+  <h4>{{ post.comment_set.count }} Comments</h4>
+  <form action="{% url 'blog:comment_add' post.id %}"
+        method="post" class="form" role="form">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}
@@ -28,7 +30,6 @@
   </form>
   <br><br>
       
-  <p><span class="badge">{{ post.comment_set.count }}</span> Comments:</p><br>
       
   <div class="row">
     {% for comment in post.comment_set.all %}

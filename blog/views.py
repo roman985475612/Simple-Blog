@@ -10,6 +10,7 @@ from .forms import CommentForm, PostForm, TagForm
 class PostListView(ListView):
 
     template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
 
     def get_queryset(self):
         self.posts = Post.objects.all()
@@ -26,6 +27,17 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query
         return context
+
+
+class PostByTagListView(ListView):
+
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
+    
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])
+        self.post_list = self.tag.post_set.all()
+        return self.post_list
 
 
 class PostDetailView(DetailView):
