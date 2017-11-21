@@ -19,7 +19,7 @@
   <a href="{% url 'blog:post_edit' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
   <a href="{% url 'blog:post_delete' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
   <hr>
-  <h4>{{ post.comment_set.count }} Comments</h4>
+  <h4>{{ post.comments }} Comments</h4>
   <form action="{% url 'blog:comment_add' post.id %}"
         method="post" class="form" role="form">
     {% csrf_token %}

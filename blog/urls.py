@@ -6,6 +6,8 @@ app_name = 'blog'
 
 urlpatterns = [
     url('^$', views.PostListView.as_view(), name='index'),
+    url('^most-commented/$', views.PostByCommentsListView.as_view(),
+        name='most_commented'),
     url('^post/(?P<pk>\d+)/$', views.PostDetailView.as_view(), name='post_detail'),
     url('^post/(?P<pk>\d+)/comment/add/$',
         views.CommentCreateView.as_view(), name='comment_add'),

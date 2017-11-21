@@ -13,7 +13,9 @@
             {% endfor %}
             <br><br>
             <p>{{ post.text }}</p>
-            <br><br>
+            <br>
+            <h5><span class="glyphicon glyphicon-pencil"></span> {{ post.comments }}</h5>
+            <br>
         {% empty %}
             <br>
             <div class="panel panel-primary">

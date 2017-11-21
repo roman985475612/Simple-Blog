@@ -40,6 +40,13 @@ class PostByTagListView(ListView):
         return self.post_list
 
 
+class PostByCommentsListView(ListView):
+
+    queryset = Post.objects.order_by('-comments')
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
+
+
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
@@ -62,6 +69,8 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.post = self.get_queryset()
         form.instance.author = 'John Smith'
+        self.post.comments += 1
+        self.post.save()
         return super().form_valid(form)
 
 

@@ -9,6 +9,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
     upd_date = models.DateTimeField('update date', auto_now=True)
     text = models.TextField()
+    comments = models.PositiveSmallIntegerField(default=0)
     tags = models.ManyToManyField('Tag')
 
     class Meta:
