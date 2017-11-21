@@ -15,12 +15,13 @@
             <p>{{ post.text }}</p>
             <br>
             <h5>
-                <span class="glyphicon glyphicon-pencil"></span> {{ post.comments }}
+                <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}
+                <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}
                 {% if post.comment_set.all %}
-                    Last comment: 
-                    <i>{{ post.comment_set.first.pub_date|date:"M d, Y, P" }}</i>
+                    <i>Last comment:
+                    {{ post.comment_set.first.pub_date|date:"M d, Y, P" }}
                     by <b>{{ post.comment_set.first.author }}</b>
-                    {{ post.comment_set.first.text|truncatechars:100 }}
+                    {{ post.comment_set.first.text|truncatechars:100 }}</i>
                 {% endif %}
             </h5>
             <br>

@@ -10,6 +10,8 @@ urlpatterns = [
         name='most_commented'),
     url('^last-commented/$', views.PostByLastCommentListView.as_view(),
         name='last_commented'),
+    url('^most-viewed/$', views.PostByViewsListView.as_view(),
+        name='most_viewed'),
     url('^post/(?P<pk>\d+)/$', views.PostDetailView.as_view(), name='post_detail'),
     url('^post/(?P<pk>\d+)/comment/add/$',
         views.CommentCreateView.as_view(), name='comment_add'),

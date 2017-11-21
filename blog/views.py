@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
-from .models import Post, Comment, Tag
+from .models import Post, Comment, Tag, View
 from .forms import CommentForm, PostForm, TagForm
 
 
@@ -14,15 +14,15 @@ class PostListView(ListView):
 
     def get_queryset(self):
         self.posts = Post.objects.all()
-        self.query = self.request.GET.get('q') 
+        self.query = self.request.GET.get('q')
         if self.query:
             self.posts = self.posts.filter(
-                Q(title__icontains=self.query)|
+                Q(title__icontains=self.query) |
                 Q(text__icontains=self.query)
             ).order_by('-upd_date')
 
         return self.posts
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query
@@ -33,7 +33,7 @@ class PostByTagListView(ListView):
 
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
-    
+
     def get_queryset(self):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])
         self.post_list = self.tag.post_set.all()
@@ -52,10 +52,28 @@ class PostByLastCommentListView(ListView):
     context_object_name = 'post_list'
 
 
+class PostByViewsListView(ListView):
+    queryset = Post.objects.order_by('-views')[:10]
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
+
+
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
     form_class = CommentForm
+
+    def get_object(self):
+        object = super().get_object()
+        created = View.objects.get_or_create(
+            post=object,
+            remote_addr=self.request.META['REMOTE_ADDR']
+        )[1]
+        if created:
+            object.views += 1
+            object.save()
+
+        return object
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

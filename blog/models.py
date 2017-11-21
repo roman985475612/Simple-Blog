@@ -13,6 +13,7 @@ class Post(models.Model):
     text = models.TextField()
     comments = models.PositiveSmallIntegerField(default=0)
     last_comment_date = models.DateTimeField(default=datetime(1,1,1,0,0))
+    views = models.PositiveIntegerField(default=0)
     tags = models.ManyToManyField('Tag')
 
     class Meta:
@@ -74,3 +75,15 @@ class Tag(models.Model):
 
     def __str__(self):
         return '{}'.format(self.title)
+
+
+class View(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    remote_addr = models.CharField(max_length=20)
+    date_viewed = models.DateField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'views'
+
+    def __str__(self):
+        return '{} on {} from {}'.format(self.post, self.remote_addr, self.date_viewed)
