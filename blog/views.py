@@ -41,8 +41,13 @@ class PostByTagListView(ListView):
 
 
 class PostByCommentsListView(ListView):
+    queryset = Post.objects.order_by('-comments')[:10]
+    template_name = 'blog/post_list.html'
+    context_object_name = 'post_list'
 
-    queryset = Post.objects.order_by('-comments')
+
+class PostByLastCommentListView(ListView):
+    queryset = Post.objects.order_by('-last_comment_date')[:10]
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 

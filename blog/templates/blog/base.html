@@ -15,6 +15,7 @@
   {% url 'blog:post_add' as pad %}
   {% url 'blog:tags' as tgs %}
   {% url 'blog:most_commented' as mcm %}
+  {% url 'blog:last_commented' as lcm %}
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-3 sidenav">
@@ -22,6 +23,7 @@
         <ul class="nav nav-pills nav-stacked">
           <li {% if request.path == idx %}class="active"{% endif %}><a href="{{ idx }}">Home</a></li>
           <li {% if request.path == mcm %}class="active"{% endif %}><a href="{{ mcm }}">Most commented</a></li>
+          <li {% if request.path == lcm %}class="active"{% endif %}><a href="{{ lcm }}">Last commented</a></li>
           <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
           <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
         </ul><br>

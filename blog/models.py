@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -10,6 +12,7 @@ class Post(models.Model):
     upd_date = models.DateTimeField('update date', auto_now=True)
     text = models.TextField()
     comments = models.PositiveSmallIntegerField(default=0)
+    last_comment_date = models.DateTimeField(default=datetime(1,1,1,0,0))
     tags = models.ManyToManyField('Tag')
 
     class Meta:
