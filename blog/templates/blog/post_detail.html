@@ -18,6 +18,8 @@
   <br><br>
   <a href="{% url 'blog:post_edit' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
   <a href="{% url 'blog:post_delete' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
+  <br><br>
+  <h3><a href="{% url 'blog:post_like' post.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a> {{ post.likes }}</h3>
   <hr>
   <h4>{{ post.comments }} Comments</h4>
   <form action="{% url 'blog:comment_add' post.id %}"

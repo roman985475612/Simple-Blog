@@ -1,5 +1,6 @@
-from django.db.models import Q
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import F, Q
+from django.views.generic import RedirectView, ListView, DetailView, \
+    CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
@@ -79,6 +80,15 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
         return context
+
+
+class PostLikesIncreaseRedirectView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        post.likes = F('likes') + 1
+        post.save(update_fields=['likes'])
+        return reverse('blog:post_detail', kwargs={'pk': self.kwargs['pk']})
 
 
 class CommentCreateView(CreateView):
