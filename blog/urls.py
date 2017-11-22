@@ -9,6 +9,7 @@ urlpatterns = [
     url('^most-commented/$', views.PostByCommentsListView.as_view(), name='most_commented'),
     url('^last-commented/$', views.PostByLastCommentListView.as_view(), name='last_commented'),
     url('^most-viewed/$', views.PostByViewsListView.as_view(), name='most_viewed'),
+    url('^rating/$', views.PostByRatingListView.as_view(), name='rating'),
     url('^post/(?P<pk>\d+)/$', views.PostDetailView.as_view(), name='post_detail'),
     url('^post/(?P<pk>\d+)/like/$', views.PostLikeRedirectView.as_view(), name='post_like'),
     url('^post/(?P<pk>\d+)/dislike/$', views.PostDislikeRedirectView.as_view(), name='post_dislike'),

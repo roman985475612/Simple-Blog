@@ -16,6 +16,7 @@ class Post(models.Model):
     views = models.PositiveIntegerField(default=0)
     likes = models.PositiveSmallIntegerField(default=0)
     dislikes = models.PositiveSmallIntegerField(default=0)
+    rating = models.SmallIntegerField(default=0)
     tags = models.ManyToManyField('Tag')
 
     class Meta:
@@ -24,6 +25,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.id})
+
+    def save(self, *args, **kwargs):
+        self.rating = self.likes - self.dislikes
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return '{} by {}'.format(self.title[:15], self.author)

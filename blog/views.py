@@ -59,6 +59,10 @@ class PostByViewsListView(ListView):
     context_object_name = 'post_list'
 
 
+class PostByRatingListView(ListView):
+    queryset = Post.objects.order_by('-rating')[:10]
+    
+
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
@@ -88,7 +92,7 @@ class PostLikeRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
         post.likes = F('likes') + 1
-        post.save(update_fields=['likes'])
+        post.save()
         return super().get_redirect_url(*args, **kwargs)
 
 
@@ -98,7 +102,7 @@ class PostDislikeRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
         post.dislikes = F('dislikes') + 1
-        post.save(update_fields=['dislikes'])
+        post.save()
         return super().get_redirect_url(*args, **kwargs)
 
 

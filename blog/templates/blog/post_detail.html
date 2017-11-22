@@ -19,10 +19,11 @@
   <a href="{% url 'blog:post_edit' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
   <a href="{% url 'blog:post_delete' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
   <br><br>
-  <h3>
-    <a href="{% url 'blog:post_like' post.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a> {{ post.likes }}&nbsp;&nbsp;
-    <a href="{% url 'blog:post_dislike' post.id %}"><span class="glyphicon glyphicon-thumbs-down"></span></a> {{ post.dislikes }}
-  </h3>
+  <h4>
+    <a href="{% url 'blog:post_like' post.id %}" style="text-decoration: none;"><span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes|default:"LIKE" }}</a>&nbsp;&nbsp;
+    <a href="{% url 'blog:post_dislike' post.id %}" style="text-decoration: none;"><span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes|default:"DISLIKE" }}</a>&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-star"></span> {{ post.rating }}
+  </h4>
   <hr>
   <h4>{{ post.comments }} Comments</h4>
   <form action="{% url 'blog:comment_add' post.id %}"

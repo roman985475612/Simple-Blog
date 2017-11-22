@@ -8,7 +8,11 @@
   background-color: #f1f1f1;
   height: 100%;
 }
-                                     
+
+a:hover, a:active {
+  text-decoration: none;
+}
+
 /* Set black background color, white text and some padding */
 footer {
   background-color: #555;
@@ -27,6 +31,3 @@ footer {
   } 
 }
 
-a:hover {
-  text-decoration: none;
-}
