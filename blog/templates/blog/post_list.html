@@ -14,16 +14,18 @@
             <br><br>
             <p>{{ post.text }}</p>
             <br>
-            <h5>
-                <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}
-                <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}
+            <h4>
+                <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes }}&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes }}&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}&nbsp;&nbsp;
                 {% if post.comment_set.all %}
                     <i>Last comment:
                     {{ post.comment_set.first.pub_date|date:"M d, Y, P" }}
                     by <b>{{ post.comment_set.first.author }}</b>
-                    {{ post.comment_set.first.text|truncatechars:100 }}</i>
+                    {{ post.comment_set.first.text|truncatechars:50 }}</i>
                 {% endif %}
-            </h5>
+            </h4>
             <br>
         {% empty %}
             <br>

@@ -82,13 +82,24 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostLikesIncreaseRedirectView(RedirectView):
+class PostLikeRedirectView(RedirectView):
+    pattern_name = 'blog:post_detail'
 
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
         post.likes = F('likes') + 1
         post.save(update_fields=['likes'])
-        return reverse('blog:post_detail', kwargs={'pk': self.kwargs['pk']})
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class PostDislikeRedirectView(RedirectView):
+    pattern_name = 'blog:post_detail'
+
+    def get_redirect_url(self, *args, **kwargs):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        post.dislikes = F('dislikes') + 1
+        post.save(update_fields=['dislikes'])
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class CommentCreateView(CreateView):
