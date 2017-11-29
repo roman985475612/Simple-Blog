@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # third party apps
     'bootstrap3',
     # my apps
+    'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
 ]
 
