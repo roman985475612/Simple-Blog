@@ -4,7 +4,6 @@
 {% block title %}{{ header }}{% endblock %}
 
 {% block content %}
-    
     <div class="col-sm-9">
         <h3>{{ header }}</h3>
         <a href="{% url 'blog:tag_add' %}" target="_blank" class="btn btn-link">Add tag</a>
@@ -19,5 +18,4 @@
             {% endbuttons %}
         </form>
     </div>
-
 {% endblock %}

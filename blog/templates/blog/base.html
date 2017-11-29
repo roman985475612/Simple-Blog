@@ -18,6 +18,9 @@
   {% url 'blog:last_commented' as lcm %}
   {% url 'blog:most_viewed' as mvd %}
   {% url 'blog:rating' as rtg %}
+
+  {% url 'accounts:login' as log %}
+
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-3 sidenav">
@@ -30,7 +33,17 @@
           <li {% if request.path == rtg %}class="active"{% endif %}><a href="{{ rtg }}">Rating</a></li>
           <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
           <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
-        </ul><br>
+          
+          <br>
+          {% if user.is_authenticated %}
+            <li><a>Hello, {{ user.username|capfirst }}!</a></li>
+          {% else %}
+            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}">Sing In</a></li>
+          {% endif %}
+
+        </ul>
+
+        <br>
 
         <form action="{% url 'blog:index' %}" class="form" role="form">
           <div class="input-group">
