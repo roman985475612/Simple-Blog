@@ -10,4 +10,5 @@ urlpatterns = [
         {'template_name': 'accounts/login.html'}, name='login'),
     url('^logout/$', auth_views.logout,
         {'next_page': '/'}, name='logout'),
+    url('^register/$', views.RegisterFormView.as_view(), name='register'),
 ]

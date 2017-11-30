@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Sing Up{% endblock %}
+
+{% block content %}
+    <div class="col-sm-9">
+        <br><br>
+        <form action="" method="post" class="form" role="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <input type="button" class="btn btn-link" value="Cancel"
+                       onclick="window.history.go(-1);">
+                <input type="submit" class="btn btn-success" value="Sing Up">
+            {% endbuttons %}
+        </form>
+    </div>
+{% endblock %}

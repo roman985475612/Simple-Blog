@@ -20,6 +20,7 @@
   {% url 'blog:rating' as rtg %}
 
   {% url 'accounts:login' as log %}
+  {% url 'accounts:register' as reg %}
 
   <div class="container-fluid">
     <div class="row content">
@@ -41,6 +42,7 @@
             <li><a href="{% url 'accounts:logout' %}">Sign Out</a></li>
           {% else %}
             <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}">Sing In</a></li>
+            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}">Sing Up</a></li>
           {% endif %}
 
         </ul>
