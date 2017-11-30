@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -7,7 +8,7 @@ from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
     upd_date = models.DateTimeField('update date', auto_now=True)
     text = models.TextField()
@@ -36,7 +37,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
     text = models.TextField()
 

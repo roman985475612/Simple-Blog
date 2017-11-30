@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, Q
 from django.views.generic import RedirectView, ListView, DetailView, \
     CreateView, UpdateView, DeleteView
@@ -9,7 +12,6 @@ from .forms import CommentForm, PostForm, TagForm
 
 
 class PostListView(ListView):
-
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
@@ -31,7 +33,6 @@ class PostListView(ListView):
 
 
 class PostByTagListView(ListView):
-
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
@@ -86,7 +87,7 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostLikeRedirectView(RedirectView):
+class PostLikeRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'blog:post_detail'
 
     def get_redirect_url(self, *args, **kwargs):
@@ -96,7 +97,7 @@ class PostLikeRedirectView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
-class PostDislikeRedirectView(RedirectView):
+class PostDislikeRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'blog:post_detail'
 
     def get_redirect_url(self, *args, **kwargs):
@@ -106,7 +107,7 @@ class PostDislikeRedirectView(RedirectView):
         return super().get_redirect_url(*args, **kwargs)
 
 
-class CommentCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
 
@@ -116,13 +117,14 @@ class CommentCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.post = self.get_queryset()
-        form.instance.author = 'John Smith'
+        form.instance.author = self.request.user
         self.post.comments += 1
+        self.post.last_comment_date = datetime.now()
         self.post.save()
         return super().form_valid(form)
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
 
@@ -132,11 +134,11 @@ class PostCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.author = 'John Smith'
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
 
@@ -146,7 +148,7 @@ class PostUpdateView(UpdateView):
         return context
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
 
@@ -155,7 +157,7 @@ class TagListView(ListView):
     model = Tag
 
 
-class TagCreateView(CreateView):
+class TagCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     form_class = TagForm
     success_url = reverse_lazy('blog:tags')

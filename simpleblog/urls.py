@@ -3,6 +3,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('blog.urls')),
-    url(r'^account/', include('accounts.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
 ]
