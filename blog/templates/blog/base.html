@@ -35,8 +35,10 @@
           <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
           
           <br>
+          
           {% if user.is_authenticated %}
             <li><a>Hello, {{ user.username|capfirst }}!</a></li>
+            <li><a href="{% url 'accounts:logout' %}">Sign Out</a></li>
           {% else %}
             <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}">Sing In</a></li>
           {% endif %}
