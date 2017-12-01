@@ -8,7 +8,6 @@ from django.urls import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
     upd_date = models.DateTimeField('update date', auto_now=True)
     text = models.TextField()
@@ -18,6 +17,7 @@ class Post(models.Model):
     likes = models.PositiveSmallIntegerField(default=0)
     dislikes = models.PositiveSmallIntegerField(default=0)
     rating = models.SmallIntegerField(default=0)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     tags = models.ManyToManyField('Tag')
 
     class Meta:
@@ -36,10 +36,10 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
     text = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'comments'
@@ -86,12 +86,25 @@ class Tag(models.Model):
 
 
 class View(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     remote_addr = models.CharField(max_length=20)
     date_viewed = models.DateField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'views'
 
     def __str__(self):
         return '{} on {} from {}'.format(self.post, self.remote_addr, self.date_viewed)
+
+
+class Button(models.Model):
+    is_liked = models.BooleanField()
+    is_disliked = models.BooleanField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'buttons'
+
+    def __str__(self):
+        return '{} to {}'.format(self.user, self.post.title[:15])

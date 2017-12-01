@@ -7,7 +7,7 @@ from django.views.generic import RedirectView, ListView, DetailView, \
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
-from .models import Post, Comment, Tag, View
+from .models import Post, Comment, Tag, View, Button
 from .forms import CommentForm, PostForm, TagForm
 
 
@@ -92,7 +92,28 @@ class PostLikeRedirectView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
-        post.likes = F('likes') + 1
+        user = self.request.user
+        obj, created = Button.objects.get_or_create(post=post, user=user,
+            defaults={'is_liked': True, 'is_disliked': False})
+        
+        if created:
+            post.likes = F('likes') + 1
+        else:
+            if obj.is_liked and not obj.is_disliked:
+                obj.is_liked = False
+                post.likes = F('likes') - 1
+            
+            elif not obj.is_liked and not obj.is_disliked:
+                obj.is_liked = True
+                post.likes = F('likes') + 1
+
+            elif not obj.is_liked and obj.is_disliked:
+                obj.is_liked = True
+                post.likes = F('likes') + 1
+                obj.is_disliked = False
+                post.dislikes = F('dislikes') - 1
+
+        obj.save()
         post.save()
         return super().get_redirect_url(*args, **kwargs)
 
@@ -102,7 +123,27 @@ class PostDislikeRedirectView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
-        post.dislikes = F('dislikes') + 1
+        user = self.request.user
+        obj, created = Button.objects.get_or_create(post=post, user=user,
+            defaults={'is_liked': False, 'is_disliked': True})
+        if created:
+            post.dislikes = F('dislikes') + 1
+        else:
+            if obj.is_liked and not obj.is_disliked:
+                obj.is_liked = False
+                post.likes = F('likes') - 1
+                obj.is_disliked = True
+                post.dislikes = F('dislikes') + 1
+
+            elif not obj.is_liked and not obj.is_disliked:
+                obj.is_disliked = True
+                post.dislikes = F('dislikes') + 1
+
+            elif not obj.is_liked and obj.is_disliked:
+                obj.is_disliked = False
+                post.dislikes = F('dislikes') - 1
+        
+        obj.save()
         post.save()
         return super().get_redirect_url(*args, **kwargs)
 
