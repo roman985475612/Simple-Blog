@@ -147,9 +147,12 @@ if os.getcwd() == '/app':
     DEBUG = False
 
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+    print('project_root: ' + PROJECT_ROOT)
 
     STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+    print('static root: ' + STATIC_ROOT)
 
     STATICFILES_DIRS = (
         os.path.join(PROJECT_ROOT, 'static'),
     )
+    print('staticfiles dirs: ' + STATICFILES_DIRS)
