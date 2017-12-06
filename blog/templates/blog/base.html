@@ -35,17 +35,17 @@
           <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
           
           {% if user.is_authenticated %}
-            <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">New Post</a></li>
+            <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}">Add article</a></li>
           {% endif %}
           
           <br>
           
           {% if user.is_authenticated %}
             <li><a>Hello, {{ user.username|capfirst }}!</a></li>
-            <li><a href="{% url 'accounts:logout' %}">Sign Out</a></li>
+            <li><a href="{% url 'accounts:logout' %}">LOG OUT</a></li>
           {% else %}
-            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}">Sing In</a></li>
-            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}">Sing Up</a></li>
+            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}">LOG IN</a></li>
+            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}">REGISTER</a></li>
           {% endif %}
 
         </ul>
@@ -71,7 +71,7 @@
   </div>
   
   <footer class="container-fluid">
-    <p>Footer Text</p>
+    <p class="text-center">Simple Blog</p>
   </footer>
 </body>
 </html>

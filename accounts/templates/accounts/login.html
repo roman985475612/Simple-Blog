@@ -5,14 +5,14 @@
 
 {% block content %}
     <div class="col-sm-9">
-        <br><br>
+        <h2>Log In</h2><br>
         <form action="" method="post" class="form" role="form">
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
                 <input type="button" class="btn btn-link" value="Cancel"
                        onclick="window.history.go(-1);">
-                <input type="submit" class="btn btn-success" value="Sing In">
+                <input type="submit" class="btn btn-success" value="Log In">
             {% endbuttons %}
         </form>
     </div>
