@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'pk8sgwkuk5s2*p!0%jvmg#-l8tqqc#s)b71vm)_nu+a&o#)%j#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,7 +59,9 @@ ROOT_URLCONF = 'simpleblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'simpleblog/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-  
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'simpleblog/static')
+
 BOOTSTRAP3 = {
     'include_jquery': True,    
 }
@@ -146,10 +150,10 @@ if os.getcwd() == '/app':
     ALLOWED_HOSTS = ['floating-lowlands-73342.herokuapp.com']
     DEBUG = False
 
-    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
     STATICFILES_DIRS = (
-        os.path.join(PROJECT_ROOT, 'static'),
+        os.path.join(BASE_DIR, 'static'),
     )
