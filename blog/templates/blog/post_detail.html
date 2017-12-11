@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
+{% load staticfiles %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -52,7 +53,7 @@
   <div class="row">
     {% for comment in post.comment_set.all %}
       <div class="col-sm-2 text-center">
-        <img src="bandmember.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+        <img src="{% static 'img/avatar-tiny.jpg' %}" class="img-circle" height="65" width="65" alt="Avatar">
       </div>
       <div class="col-sm-10">
         <h4>{{ comment.author|title }} <small>{{ comment.pub_date|date:"M d, Y, P" }}</small></h4>
