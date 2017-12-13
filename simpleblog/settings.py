@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'pk8sgwkuk5s2*p!0%jvmg#-l8tqqc#s)b71vm)_nu+a&o#)%j#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -135,8 +135,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'simpleblog/static')
 BOOTSTRAP3 = {
     'include_jquery': True,    
 }
-
-LOGIN_REDIRECT_URL = '/'
 
 # Settings for Heroku
 if os.getcwd() == '/app':

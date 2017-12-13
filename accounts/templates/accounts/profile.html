@@ -18,5 +18,7 @@
             <tr><td>Last login</td><td>{{ request.user.last_login }}</td></tr>
         </tbody>
     </table>
+
+    <a href="{% url 'accounts:delete' %}" class="btn btn-danger">Delete</a>
 </div>
 {% endblock %}

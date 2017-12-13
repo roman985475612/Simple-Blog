@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block title %}Delete account{% endblock %}
+
+{% block content %}
+<div class="col-sm-9">
+    <div class="container"><br>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                Delete account: {{ request.user.username }}
+            </div>
+            <div class="panel-body">
+                <form action="" method="post" class="form" role="form">
+                    {% csrf_token %}
+                    <a href="{% url 'blog:index' %}" class="btn btn-link">Cancel</a>
+                    <input type="submit" value="Confirm delete" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
