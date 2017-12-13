@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block title %}{{ request.user.username|capfirst }}{% endblock %}
+
+{% block content %}
+<div class="col-sm-9">
+    <h2 class="text-primary">Profile: {{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</h2>
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr><td>ID</td><td>{{ request.user.id }}</td></tr>
+            <tr><td>Username</td><td>{{ request.user.username }}</td></tr>
+            <tr><td>First_name</td><td>{{ request.user.first_name }}</td></tr>
+            <tr><td>Last_name</td><td>{{ request.user.last_name }}</td></tr>
+            <tr><td>E-mail</td><td>{{ request.user.email }}</td></tr>
+            <tr><td>Date joined</td><td>{{ request.user.date_joined }}</td></tr>
+            <tr><td>Last login</td><td>{{ request.user.last_login }}</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
