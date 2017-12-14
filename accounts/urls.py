@@ -12,5 +12,5 @@ urlpatterns = [
     path('register/', views.RegisterFormView.as_view(), name='register'),
     path('profile/', TemplateView.as_view(template_name='accounts/profile.html'), name='profile'),
     path('profile/update/<int:pk>/', views.UserUpdateView.as_view(), name='update'),
-    path('profile/delete/', views.UserDeleteView.as_view(), name='delete'),
+    path('profile/delete/<int:pk>/', views.UserDeleteView.as_view(), name='delete'),
 ]

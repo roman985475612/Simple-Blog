@@ -12,9 +12,7 @@
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
-                <input class="btn btn-link" 
-                   type="button" value="Cancel" 
-                   onclick="window.history.go(-1);">
+                <a href="{% url 'accounts:profile' %}" class="btn btn-link">Cancel</a>
                 <button type="submit" class="btn btn-success">Submit</button>
             {% endbuttons %}
         </form>
