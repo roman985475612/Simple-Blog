@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import F, Q
 from django.views.generic import RedirectView, ListView, DetailView, \
     CreateView, UpdateView, DeleteView
@@ -179,9 +179,14 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
+    raise_exception = True
+
+    def test_func(self):
+        owner = self.get_queryset()[0].author
+        return self.request.user == owner
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -189,9 +194,14 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
+    raise_exception = True
+
+    def test_func(self):
+        owner = self.get_queryset()[0].author
+        return self.request.user == owner
 
 
 class TagListView(ListView):

@@ -128,9 +128,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'simpleblog/static')
 STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'simpleblog/static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'simpleblog/static')]
 
 BOOTSTRAP3 = {
     'include_jquery': True,    
@@ -146,6 +146,7 @@ if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     ALLOWED_HOSTS = ['floating-lowlands-73342.herokuapp.com']
+    
     DEBUG = False
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
