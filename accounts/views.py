@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
@@ -20,6 +20,13 @@ class RegisterFormView(FormView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return super().form_valid(form)
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = 'accounts/user_form.html'
+    fields = ['first_name', 'last_name', 'email']
+    success_url = reverse_lazy('accounts:profile')
 
 
 class UserDeleteView(View):

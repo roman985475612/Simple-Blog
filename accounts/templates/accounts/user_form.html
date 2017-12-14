@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block title %}Update account{% endblock %}
+
+{% block content %}
+<div class="col-sm-9">
+    <div class="container">
+        <h2>Update account: {{ request.user.username }}</h2><br>
+        <form action="" method="post" class="form" role="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <input class="btn btn-link" 
+                   type="button" value="Cancel" 
+                   onclick="window.history.go(-1);">
+                <button type="submit" class="btn btn-success">Submit</button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+{% endblock %}

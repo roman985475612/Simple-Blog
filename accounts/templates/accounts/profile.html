@@ -20,5 +20,6 @@
     </table>
 
     <a href="{% url 'accounts:delete' %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'accounts:update' request.user.pk %}" class="btn btn-info">Update</a>
 </div>
 {% endblock %}
