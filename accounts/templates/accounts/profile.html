@@ -18,8 +18,34 @@
             <tr><td>Last login</td><td>{{ request.user.last_login }}</td></tr>
         </tbody>
     </table>
+    
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">Delete</button>
+    <a href="{% url 'accounts:update' %}" class="btn btn-info">Update</a>
 
-    <a href="{% url 'accounts:delete' request.user.pk %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'accounts:update' request.user.pk %}" class="btn btn-info">Update</a>
+    <!-- Modal -->
+    <div class="modal fade" id="delete" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Delete user</h4>
+                </div>
+                <div class="modal-body">
+                  <p>{{ request.user.username }}</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{% url 'accounts:delete' %}" method="post">
+                        {% csrf_token %}
+                        {% buttons %}
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        {% endbuttons %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

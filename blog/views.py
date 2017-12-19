@@ -2,8 +2,14 @@ from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import F, Q
-from django.views.generic import RedirectView, ListView, DetailView, \
-    CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    RedirectView,
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+    )
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 

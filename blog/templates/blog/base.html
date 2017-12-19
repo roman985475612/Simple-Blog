@@ -22,6 +22,7 @@
   {% url 'accounts:login' as log %}
   {% url 'accounts:register' as reg %}
   {% url 'accounts:profile' as pro %}
+  {% url 'accounts:posts' as pst %}
 
   <div class="container-fluid">
     <div class="row content">
@@ -36,30 +37,31 @@
           <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
           
           <br>
+
+          <form action="{% url 'blog:index' %}" class="form" role="form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" value="{{ query|default:"" }}" placeholder="Search Blog..">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+          
+          <br>
           
           {% if user.is_authenticated %}
             <li {% if request.path == pro %}class="active"{% endif %}><a href="{{ pro }}"><span class="glyphicon glyphicon-user"></span> Hello, {{ user.username|capfirst }}!</a></li>
+            <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}"><span class="glyphicon glyphicon-file"></span> ADD POST</a></li>
+            <li {% if request.path == pst %}class="active"{% endif %}><a href="{{ pst }}"><span class="glyphicon glyphicon-list-alt"></span> MY POSTS</a></li>
             <li><a href="{% url 'accounts:logout' %}"><span class="glyphicon glyphicon-log-out"></span> LOG OUT</a></li>
-            <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}"><span class="glyphicon glyphicon-file"></span> ADD ARTICLE</a></li>
           {% else %}
             <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}"><span class="glyphicon glyphicon-log-in"></span> LOG IN</a></li>
-            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}">REGISTER</a></li>
+            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}"><span class="glyphicon glyphicon-user"></span> REGISTER</a></li>
           {% endif %}
 
         </ul>
-
-        <br>
-
-        <form action="{% url 'blog:index' %}" class="form" role="form">
-          <div class="input-group">
-            <input type="text" name="q" class="form-control" value="{{ query|default:"" }}" placeholder="Search Blog..">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
-          </div>
-        </form>
 
       </div>
 

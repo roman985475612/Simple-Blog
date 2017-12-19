@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}List My Posts{% endblock %}
+
+{% block content %}
+    <div class="col-sm-9">
+        <h2>List My Posts</h2>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td><span class="glyphicon glyphicon-eye-open"></span></td>
+                    <td><span class="glyphicon glyphicon-comment"></span></td>
+                    <td><span class="glyphicon glyphicon-thumbs-up"></span></td>
+                    <td><span class="glyphicon glyphicon-thumbs-down"></span></td>
+                    <td><span class="glyphicon glyphicon-star"></span></td>
+                </tr>
+            </thead>
+            <tbody>
+            {% with post_list=request.user.post_set.all %}
+            {% for post in post_list %}
+                <tr>
+                    <td><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></td>
+                    <td>{{ post.views }}</td>
+                    <td>{{ post.comments }}</td>
+                    <td>{{ post.likes }}</td>
+                    <td>{{ post.dislikes }}</td>
+                    <td>{{ post.rating }}</td>
+                </tr>
+            {% endfor %}
+            {% endwith %}
+            </tbody>
+        </table>      
+    </div>
+{% endblock %}

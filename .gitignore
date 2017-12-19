@@ -102,3 +102,7 @@ ENV/
 
 # vim temporary files
 *.swp
+
+# sublime text files
+*.sublime-project
+*.sublime-workspace

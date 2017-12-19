@@ -10,7 +10,7 @@
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
-                <input type="button" class="btn btn-link" value="Cancel"
+                <input type="button" class="btn btn-default" value="Cancel"
                        onclick="window.history.go(-1);">
                 <input type="submit" class="btn btn-success" value="Log In">
             {% endbuttons %}
