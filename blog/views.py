@@ -17,6 +17,14 @@ from .models import Post, Comment, Tag, View, Button
 from .forms import CommentForm, PostForm, TagForm
 
 
+class MyUserPassesTestMixin(UserPassesTestMixin):
+    raise_exception = True
+
+    def test_func(self):
+        owner = self.get_queryset()[0].author
+        return self.request.user == owner
+
+
 class PostListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
@@ -185,14 +193,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateView(UserPassesTestMixin, UpdateView):
+class PostUpdateView(MyUserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
-    raise_exception = True
-
-    def test_func(self):
-        owner = self.get_queryset()[0].author
-        return self.request.user == owner
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -200,14 +203,21 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
         return context
 
 
-class PostDeleteView(UserPassesTestMixin, DeleteView):
-    model = Post
-    success_url = reverse_lazy('blog:index')
-    raise_exception = True
+class PostDeleteView(UserPassesTestMixin, RedirectView):
+    # raise_exception = True
+
+    def get_queryset(self):
+        return get_object_or_404(Post, pk=self.kwargs['pk'])
 
     def test_func(self):
-        owner = self.get_queryset()[0].author
-        return self.request.user == owner
+        return self.request.user == self.get_queryset().author
+    
+    def post(self, request, *args, **kwargs):
+        self.get_queryset().delete()
+        return super().post(request, *args, **kwargs)
+    
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('blog:index')
 
 
 class TagListView(ListView):

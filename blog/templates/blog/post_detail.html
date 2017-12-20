@@ -16,10 +16,41 @@
   {% endfor %}
   <br><br>
   <p>{{ post.text }}</p>
+
   <br><br>
-  {% if user.is_authenticated %}
-    <a href="{% url 'blog:post_edit' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-    <a href="{% url 'blog:post_delete' post.id%}" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
+
+  {% if post.author == request.user %}
+    <a href="{% url 'blog:post_update' post.id %}" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+    <button class="btn btn-danger" data-toggle="modal" data-target="#postDelete">Delete</button>
+    <!-- Modal-->
+    <div class="modal fade" id="postDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+          </div>
+
+          <div class="modal-body">
+            You're about to delete {{ post }}. Please confirm.
+          </div>
+
+          <div class="modal-footer">
+            <form action="{% url 'blog:post_delete' post.id %}" method="post" role="form" class="from">
+              {% csrf_token %}
+              <button class="btn btn-default" type="button" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+          </div>
+
+        </div> <!-- /.modal-content -->
+      </div> <!-- /.modal-dialog -->
+
+    </div> <!-- /.modal -->
+
+
     <br><br>
   {% endif %}
   
