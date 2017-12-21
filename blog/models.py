@@ -22,7 +22,6 @@ class Post(models.Model):
 
     class Meta:
         db_table = 'posts'
-        ordering = ['-upd_date']
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.id})

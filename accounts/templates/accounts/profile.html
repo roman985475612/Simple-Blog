@@ -6,7 +6,11 @@
 
 {% block content %}
 <div class="col-sm-9">
-    <h2 class="text-primary">Profile: {{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</h2>
+    <h2 class="text-primary">{{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</h2>
+    
+    <a href="{% url 'accounts:update' %}" class="btn btn-primary">Update</a>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">Delete</button>
+    <br><br>
     <table class="table table-bordered table-striped">
         <tbody>
             <tr><td>ID</td><td>{{ request.user.id }}</td></tr>
@@ -19,10 +23,7 @@
         </tbody>
     </table>
     
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">Delete</button>
-    <a href="{% url 'accounts:update' %}" class="btn btn-info">Update</a>
-
+    
     <!-- Modal -->
     <div class="modal fade" id="delete" role="dialog">
         <div class="modal-dialog">

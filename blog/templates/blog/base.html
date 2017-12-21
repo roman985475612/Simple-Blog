@@ -12,7 +12,6 @@
 </head>
 <body>
   {% url 'blog:index' as idx %}
-  {% url 'blog:post_add' as pad %}
   {% url 'blog:tags' as tgs %}
   {% url 'blog:most_commented' as mcm %}
   {% url 'blog:last_commented' as lcm %}
@@ -53,7 +52,6 @@
           
           {% if user.is_authenticated %}
             <li {% if request.path == pro %}class="active"{% endif %}><a href="{{ pro }}"><span class="glyphicon glyphicon-user"></span> Hello, {{ user.username|capfirst }}!</a></li>
-            <li {% if request.path == pad %}class="active"{% endif %}><a href="{{ pad }}"><span class="glyphicon glyphicon-file"></span> ADD POST</a></li>
             <li {% if request.path == pst %}class="active"{% endif %}><a href="{{ pst }}"><span class="glyphicon glyphicon-list-alt"></span> MY POSTS</a></li>
             <li><a href="{% url 'accounts:logout' %}"><span class="glyphicon glyphicon-log-out"></span> LOG OUT</a></li>
           {% else %}
@@ -71,7 +69,7 @@
   </div>
   
   <footer class="container-fluid">
-    <p class="text-center">Simple Blog</p>
+    <p class="text-center">&copy; Simple Blog, 2017</p>
   </footer>
 </body>
 </html>

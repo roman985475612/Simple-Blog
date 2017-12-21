@@ -36,9 +36,9 @@ class PostListView(ListView):
             self.posts = self.posts.filter(
                 Q(title__icontains=self.query) |
                 Q(text__icontains=self.query)
-            ).order_by('-upd_date')
+            )
 
-        return self.posts
+        return self.posts.order_by('-upd_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -182,6 +182,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
+    success_url = reverse_lazy('accounts:posts')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -204,7 +205,6 @@ class PostUpdateView(MyUserPassesTestMixin, UpdateView):
 
 
 class PostDeleteView(UserPassesTestMixin, RedirectView):
-    # raise_exception = True
 
     def get_queryset(self):
         return get_object_or_404(Post, pk=self.kwargs['pk'])
@@ -217,7 +217,7 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
         return super().post(request, *args, **kwargs)
     
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('blog:index')
+        return reverse('accounts:posts')
 
 
 class TagListView(ListView):
