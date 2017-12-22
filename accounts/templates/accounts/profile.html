@@ -6,23 +6,30 @@
 
 {% block content %}
 <div class="col-sm-9">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ message.tags|capfirst }}!</strong> {{ message }}
+        </div>   
+        {% endfor %}
+    {% endif %}
     <h2 class="text-primary">{{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</h2>
-    
     <a href="{% url 'accounts:update' %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'accounts:change_password' %}" class="btn btn-warning">Change password</a>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">Delete</button>
     <br><br>
     <table class="table table-bordered table-striped">
         <tbody>
-            <tr><td>ID</td><td>{{ request.user.id }}</td></tr>
-            <tr><td>Username</td><td>{{ request.user.username }}</td></tr>
-            <tr><td>First_name</td><td>{{ request.user.first_name }}</td></tr>
-            <tr><td>Last_name</td><td>{{ request.user.last_name }}</td></tr>
-            <tr><td>E-mail</td><td>{{ request.user.email }}</td></tr>
-            <tr><td>Date joined</td><td>{{ request.user.date_joined }}</td></tr>
-            <tr><td>Last login</td><td>{{ request.user.last_login }}</td></tr>
+            <tr><td><b>ID</b></td><td>{{ request.user.id }}</td></tr>
+            <tr><td><b>Username</b></td><td>{{ request.user.username }}</td></tr>
+            <tr><td><b>First_name</b></td><td>{{ request.user.first_name }}</td></tr>
+            <tr><td><b>Last_name</b></td><td>{{ request.user.last_name }}</td></tr>
+            <tr><td><b>E-mail</b></td><td>{{ request.user.email }}</td></tr>
+            <tr><td><b>Date joined</b></td><td>{{ request.user.date_joined }}</td></tr>
+            <tr><td><b>Last login</b></td><td>{{ request.user.last_login }}</td></tr>
         </tbody>
     </table>
-    
     
     <!-- Modal -->
     <div class="modal fade" id="delete" role="dialog">
@@ -47,6 +54,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- /.modal -->
 </div>
 {% endblock %}

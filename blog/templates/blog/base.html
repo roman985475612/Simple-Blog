@@ -52,11 +52,11 @@
           
           {% if user.is_authenticated %}
             <li {% if request.path == pro %}class="active"{% endif %}><a href="{{ pro }}"><span class="glyphicon glyphicon-user"></span> Hello, {{ user.username|capfirst }}!</a></li>
-            <li {% if request.path == pst %}class="active"{% endif %}><a href="{{ pst }}"><span class="glyphicon glyphicon-list-alt"></span> MY POSTS</a></li>
-            <li><a href="{% url 'accounts:logout' %}"><span class="glyphicon glyphicon-log-out"></span> LOG OUT</a></li>
+            <li {% if request.path == pst %}class="active"{% endif %}><a href="{{ pst }}"><span class="glyphicon glyphicon-list-alt"></span> My posts</a></li>
+            <li><a href="{% url 'accounts:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% else %}
-            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}"><span class="glyphicon glyphicon-log-in"></span> LOG IN</a></li>
-            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}"><span class="glyphicon glyphicon-user"></span> REGISTER</a></li>
+            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
           {% endif %}
 
         </ul>

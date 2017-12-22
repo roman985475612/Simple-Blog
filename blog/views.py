@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import F, Q
 from django.views.generic import (
@@ -15,14 +16,6 @@ from django.urls import reverse, reverse_lazy
 
 from .models import Post, Comment, Tag, View, Button
 from .forms import CommentForm, PostForm, TagForm
-
-
-class MyUserPassesTestMixin(UserPassesTestMixin):
-    raise_exception = True
-
-    def test_func(self):
-        owner = self.get_queryset()[0].author
-        return self.request.user == owner
 
 
 class PostListView(ListView):
@@ -191,17 +184,27 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        messages.success(self.request, 'Post created.')
         return super().form_valid(form)
 
 
-class PostUpdateView(MyUserPassesTestMixin, UpdateView):
+class PostUpdateView(UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
+    success_url = reverse_lazy('accounts:posts')
 
+    def test_func(self):
+        post_to_update = get_object_or_404(Post, pk=self.kwargs['pk'])
+        return self.request.user == post_to_update.author
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['header'] = 'Editing a post'
         return context
+        
+    def form_valid(self, form):
+        messages.success(self.request, 'Post updated.')
+        return super().form_valid(form)
 
 
 class PostDeleteView(UserPassesTestMixin, RedirectView):
@@ -214,6 +217,7 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
     
     def post(self, request, *args, **kwargs):
         self.get_queryset().delete()
+        messages.success(request, 'Post deleted.')
         return super().post(request, *args, **kwargs)
     
     def get_redirect_url(self, *args, **kwargs):

@@ -1,19 +1,15 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
 
-{% block title %}Sing In{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
     <div class="col-sm-9">
-        <h2>Log In</h2><br>
+        <h2>Login</h2>
         <form action="" method="post" class="form" role="form">
             {% csrf_token %}
             {% bootstrap_form form %}
-            {% buttons %}
-                <input type="button" class="btn btn-default" value="Cancel"
-                       onclick="window.history.go(-1);">
-                <input type="submit" class="btn btn-success" value="Log In">
-            {% endbuttons %}
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
 {% endblock %}

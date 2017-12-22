@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from .views import (
+    PasswordChangeView,
     RegisterFormView,
     UserUpdate,
     UserDelete,
@@ -15,7 +16,8 @@ urlpatterns = [
     path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
     path('register/', RegisterFormView.as_view(), name='register'),
     path('profile/', TemplateView.as_view(template_name='accounts/profile.html'), name='profile'),
+    path('profile/change-password/', PasswordChangeView.as_view(), name='change_password'),
     path('profile/delete/', UserDelete.as_view(), name='delete'),
     path('profile/update/', UserUpdate.as_view(), name='update'),
-    path('posts/', TemplateView.as_view(template_name='accounts/post_list.html'), name='posts'),
+    path('posts/', TemplateView.as_view(template_name='accounts/user_posts.html'), name='posts'),
 ]
