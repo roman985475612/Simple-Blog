@@ -27,13 +27,19 @@ class RegisterFormView(FormView):
         login(self.request, user)
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Register'
+        return context
+
+
 class PasswordChangeView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/change_password.html'
     form_class = PasswordChangeForm
     
     def get(self, request, *args, **kwargs):
         form = self.form_class(self.request.user)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Change Password'})
         
     def post(self, request, *args, **kwargs):
         form = self.form_class(self.request.user, data=request.POST)
@@ -45,16 +51,34 @@ class PasswordChangeView(LoginRequiredMixin, TemplateView):
             login(self.request, user)
             messages.success(request, 'Password updated.')
             return redirect('accounts:profile')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Change Password'})
 
 
-class UserUpdate(LoginRequiredMixin, TemplateView):
+class UserProfileView(TemplateView):
+    template_name = 'accounts/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.request.user.username
+        return context
+
+
+class UserPostsView(TemplateView):
+    template_name = 'accounts/user_posts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Posts'
+        return context
+
+
+class UserUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/user_form.html'
     form_class = UserForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(instance=self.request.user)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'title': 'Update'})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(instance=self.request.user, data=request.POST)
@@ -62,10 +86,10 @@ class UserUpdate(LoginRequiredMixin, TemplateView):
             form.save()
             messages.success(request, 'Profile updated.')
             return redirect('accounts:profile')
-        return render(request, self.tempalte_name, {'form': form})
+        return render(request, self.tempalte_name, {'form': form, 'title': 'Update'})
 
 
-class UserDelete(LoginRequiredMixin, RedirectView):
+class UserDeleteView(LoginRequiredMixin, RedirectView):
     pattern_name = 'blog:index'
 
     def post(self, request, *args, **kwargs):

@@ -1,15 +1,13 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
 
-{% block title %}Register{% endblock %}
-
 {% block content %}
-    <div class="col-sm-9">
-        <h2>Register</h2>
-        <form action="" method="post" class="form" role="form">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <button type="submit" class="btn btn-success">Register</button>
-        </form>
-    </div>
+<div class="col-sm-9">
+  <h3>{{ title }}</h3>
+  <form action="" method="post" class="form" role="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-success">Register</button>
+  </form>
+</div>
 {% endblock %}

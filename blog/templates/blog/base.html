@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block title %}Simple Blog{% endblock %}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   <link rel="stylesheet" href="{% static 'style.css' %}">
+  <title>{{ title }} | Simple Blog</title>
 </head>
 <body>
   {% url 'blog:index' as idx %}

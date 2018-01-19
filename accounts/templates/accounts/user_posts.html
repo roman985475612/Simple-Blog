@@ -14,9 +14,9 @@
             </div>   
         {% endfor %}
     {% endif %}
+    <h3>{{ title }}</h3>
     {% if request.user.post_set.all %}
         <table class="table table-bordered table-hover">
-            <caption>List of My Posts</caption>
             <thead>
                 <tr>
                     <th>ID</th>

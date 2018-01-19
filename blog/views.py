@@ -36,6 +36,7 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query
+        context['title'] = 'Home'
         return context
 
 
@@ -48,11 +49,21 @@ class PostByTagListView(ListView):
         self.post_list = self.tag.post_set.all()
         return self.post_list
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Posts'
+        return context
+
 
 class PostByCommentsListView(ListView):
     queryset = Post.objects.order_by('-comments')[:10]
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Posts'
+        return context
 
 
 class PostByLastCommentListView(ListView):
@@ -60,15 +71,30 @@ class PostByLastCommentListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Posts'
+        return context
+
 
 class PostByViewsListView(ListView):
     queryset = Post.objects.order_by('-views')[:10]
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Posts'
+        return context
+
 
 class PostByRatingListView(ListView):
     queryset = Post.objects.order_by('-rating')[:10]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Posts'
+        return context
     
 
 class PostDetailView(DetailView):
@@ -91,6 +117,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
+        context['title'] = self.get_object().title
         return context
 
 
@@ -179,7 +206,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['header'] = 'Add new post'
+        context['title'] = 'Add Post'
         return context
 
     def form_valid(self, form):
@@ -199,7 +226,7 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['header'] = 'Editing a post'
+        context['title'] = 'Update Post'
         return context
         
     def form_valid(self, form):
@@ -226,6 +253,11 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
 
 class TagListView(ListView):
     model = Tag
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tags'
+        return context
 
 
 class TagCreateView(LoginRequiredMixin, CreateView):
@@ -235,5 +267,5 @@ class TagCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['header'] = "Adding tag"
+        context['title'] = "Add Tag"
         return context

@@ -2,8 +2,6 @@
 {% load bootstrap3 %}
 {% load static %}
 
-{% block title %}{{ request.user.username|capfirst }}{% endblock %}
-
 {% block content %}
 <div class="col-sm-9">
     <br>
@@ -15,8 +13,8 @@
             </div>   
         {% endfor %}
     {% endif %}
+    <h3>{{ title }}</h3>
     <table class="table table-bordered table-striped">
-        <caption>{{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</caption>
         <tbody>
             <tr><td><b>ID</b></td><td>{{ request.user.id }}</td></tr>
             <tr><td><b>Username</b></td><td>{{ request.user.username }}</td></tr>
