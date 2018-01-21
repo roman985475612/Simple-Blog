@@ -1,14 +1,11 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
-    <div class="col-sm-9">
-        <h3>{{ title }}</h3>
-        <br>
-        {% for tag in object_list %}
-            <a href="{% url 'blog:tag_detail' tag.slug %}" 
-               class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
-        {% endfor %}
-        <br><br>
-        <a href="{% url 'blog:tag_add' %}" class="btn btn-success">Add new tag</a>
-    </div>
+{% for tag in object_list %}
+    <a href="{% url 'blog:tag_detail' tag.slug %}" class="btn btn-{{ tag.color }} btn-xs">
+        {{ tag.title }}
+    </a>
+{% endfor %}
+<br><br>
+<a href="{% url 'blog:tag_add' %}" class="btn btn-success">Add new tag</a>
 {% endblock %}

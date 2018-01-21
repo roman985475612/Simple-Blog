@@ -2,18 +2,11 @@
 {% load bootstrap3 %}
 
 {% block content %}
-    <div class="col-sm-9">
-        <h3>{{ title }}</h3>
-        <a href="{% url 'blog:tag_add' %}" target="_blank" class="btn btn-link">Add tag</a>
-        <form action="" method="post" class="form" role="form">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            {% buttons %}
-                <input class="btn btn-default" 
-               type="button" value="Cancel" 
-               onclick="window.history.go(-1);">
-                <button type="submit" class="btn btn-success">Submit</button>
-            {% endbuttons %}
-        </form>
-    </div>
+<a href="{% url 'blog:tag_add' %}" target="_blank" class="btn btn-link">Add tag</a>
+<form action="" method="post" class="form" role="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input class="btn btn-default" type="button" value="Cancel" onclick="window.history.go(-1);">
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
 {% endblock %}

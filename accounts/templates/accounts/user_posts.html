@@ -1,20 +1,7 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
 
-{% block title %}List My Posts{% endblock %}
-
 {% block content %}
-<div class="col-sm-9">
-    <br>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissable fade in">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>{{ message.tags|capfirst }}!</strong> {{ message }}
-            </div>   
-        {% endfor %}
-    {% endif %}
-    <h3>{{ title }}</h3>
     {% if request.user.post_set.all %}
         <table class="table table-bordered table-hover">
             <thead>
@@ -84,5 +71,4 @@
         </div>
     {% endif %}
         <a href="{% url 'blog:post_create' %}" class="btn btn-success">Create</a>
-    </div>
 {% endblock %}

@@ -11,65 +11,24 @@
   <title>{{ title }} | Simple Blog</title>
 </head>
 <body>
-  {% url 'blog:index' as idx %}
-  {% url 'blog:tags' as tgs %}
-  {% url 'blog:most_commented' as mcm %}
-  {% url 'blog:last_commented' as lcm %}
-  {% url 'blog:most_viewed' as mvd %}
-  {% url 'blog:rating' as rtg %}
 
-  {% url 'accounts:login' as log %}
-  {% url 'accounts:register' as reg %}
-  {% url 'accounts:profile' as pro %}
-  {% url 'accounts:posts' as pst %}
-
-  <div class="container-fluid">
-    <div class="row content">
-      <div class="col-sm-3 sidenav">
-        <h4><a href="{{ idx }}">Simple Blog</a></h4>
-        <ul class="nav nav-pills nav-stacked">
-          <li {% if request.path == idx %}class="active"{% endif %}><a href="{{ idx }}">Home</a></li>
-          <li {% if request.path == mcm %}class="active"{% endif %}><a href="{{ mcm }}">Most commented</a></li>
-          <li {% if request.path == lcm %}class="active"{% endif %}><a href="{{ lcm }}">Last commented</a></li>
-          <li {% if request.path == mvd %}class="active"{% endif %}><a href="{{ mvd }}">Most viewed</a></li>
-          <li {% if request.path == rtg %}class="active"{% endif %}><a href="{{ rtg }}">Rating</a></li>
-          <li {% if request.path == tgs %}class="active"{% endif %}><a href="{{ tgs }}">Tags</a></li>
-          
-          <br>
-
-          <form action="{% url 'blog:index' %}" class="form" role="form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" value="{{ query|default:"" }}" placeholder="Search Blog..">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                  <span class="glyphicon glyphicon-search"></span>
-                </button>
-              </span>
-            </div>
-          </form>
-          
-          <br>
-          
-          {% if user.is_authenticated %}
-            <li {% if request.path == pro %}class="active"{% endif %}><a href="{{ pro }}"><span class="glyphicon glyphicon-user"></span> Hello, {{ user.username|capfirst }}!</a></li>
-            <li {% if request.path == pst %}class="active"{% endif %}><a href="{{ pst }}"><span class="glyphicon glyphicon-list-alt"></span> My posts</a></li>
-            <li><a href="{% url 'accounts:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-          {% else %}
-            <li {% if request.path == log %}class="active"{% endif %}><a href="{{ log }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            <li {% if request.path == reg %}class="active"{% endif %}><a href="{{ reg }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-          {% endif %}
-
-        </ul>
-
-      </div>
-
-      {% block content %}{% endblock %}
-  
+<div class="container-fluid">
+  <div class="row content">
+    
+    <div class="col-sm-3 sidenav">
+        {% include 'blog/sidebar.html' %}
     </div>
-  </div>
+      
+    <div class="col-sm-9">
+        {% include 'blog/messages.html' %}
+        <h3>{{ title }}</h3>    
+        {% block content %}{% endblock %}
+    </div>
+    
+  </div><!-- /.row.content -->
+</div> <!-- /.container-fluid -->
   
-  <footer class="container-fluid">
-    <p class="text-center">&copy; Simple Blog, 2018</p>
-  </footer>
+{% include 'blog/footer.html' %}
+    
 </body>
 </html>

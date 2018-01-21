@@ -15,7 +15,7 @@ from .forms import UserForm
 
 
 class RegisterFormView(FormView):
-    template_name = 'accounts/register.html'
+    template_name = 'accounts/user_form.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('accounts:profile')
 
@@ -34,7 +34,7 @@ class RegisterFormView(FormView):
 
 
 class PasswordChangeView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/change_password.html'
+    template_name = 'accounts/user_form.html'
     form_class = PasswordChangeForm
     
     def get(self, request, *args, **kwargs):
