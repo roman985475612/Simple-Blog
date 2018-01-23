@@ -1,11 +1,13 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
 
+{% block title %}Create Tag{% endblock %}
+
 {% block content %}
+<h3>Create Tag</h3>
 <form action="" method="post" class="form" role="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <input class="btn btn-default" type="button" value="Cancel" onclick="window.history.go(-1);">
-    <button type="submit" class="btn btn-success">Submit</button>
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button type="submit" class="btn btn-success">Create</button>
 </form>
 {% endblock %}

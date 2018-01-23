@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import F, Q
 from django.views.generic import (
     RedirectView,
@@ -105,20 +106,24 @@ class PostLikeRedirectView(LoginRequiredMixin, RedirectView):
         
         if created:
             post.likes = F('likes') + 1
+            messages.success(self.request, 'Added likes')
         else:
             if obj.is_liked and not obj.is_disliked:
                 obj.is_liked = False
                 post.likes = F('likes') - 1
+                messages.success(self.request, 'Minus likes')
             
             elif not obj.is_liked and not obj.is_disliked:
                 obj.is_liked = True
                 post.likes = F('likes') + 1
+                messages.success(self.request, 'Added likes')
 
             elif not obj.is_liked and obj.is_disliked:
                 obj.is_liked = True
                 post.likes = F('likes') + 1
                 obj.is_disliked = False
                 post.dislikes = F('dislikes') - 1
+                messages.success(self.request, 'Added likes and minus dislike')
 
         obj.save()
         post.save()
@@ -135,29 +140,34 @@ class PostDislikeRedirectView(LoginRequiredMixin, RedirectView):
             defaults={'is_liked': False, 'is_disliked': True})
         if created:
             post.dislikes = F('dislikes') + 1
+            messages.success(self.request, 'Add dislike')
         else:
             if obj.is_liked and not obj.is_disliked:
                 obj.is_liked = False
                 post.likes = F('likes') - 1
                 obj.is_disliked = True
                 post.dislikes = F('dislikes') + 1
+                messages.success(self.request, 'Add dislike and minus like')
 
             elif not obj.is_liked and not obj.is_disliked:
                 obj.is_disliked = True
                 post.dislikes = F('dislikes') + 1
+                messages.success(self.request, 'Add dislike')
 
             elif not obj.is_liked and obj.is_disliked:
                 obj.is_disliked = False
                 post.dislikes = F('dislikes') - 1
+                messages.success(self.request, 'Minus dislike')
         
         obj.save()
         post.save()
         return super().get_redirect_url(*args, **kwargs)
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Comment
     form_class = CommentForm
+    success_message = 'Comment created.'
 
     def get_queryset(self):
         self.post = get_object_or_404(Post, pk=self.kwargs['pk'])
@@ -172,32 +182,29 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name_suffix = '_create'
     success_url = reverse_lazy('accounts:posts')
+    success_message = 'Post created'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, 'Post created.')
         return super().form_valid(form)
 
 
-class PostUpdateView(UserPassesTestMixin, UpdateView):
+class PostUpdateView(UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name_suffix = '_update'
     success_url = reverse_lazy('accounts:posts')
+    success_message = 'Post updated'
 
     def test_func(self):
         post_to_update = get_object_or_404(Post, pk=self.kwargs['pk'])
         return self.request.user == post_to_update.author
         
-    def form_valid(self, form):
-        messages.success(self.request, 'Post updated.')
-        return super().form_valid(form)
-
 
 class PostDeleteView(UserPassesTestMixin, RedirectView):
 
@@ -209,7 +216,7 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
     
     def post(self, request, *args, **kwargs):
         self.get_queryset().delete()
-        messages.success(request, 'Post deleted.')
+        messages.success(request, 'Post deleted')
         return super().post(request, *args, **kwargs)
     
     def get_redirect_url(self, *args, **kwargs):
@@ -220,7 +227,8 @@ class TagListView(ListView):
     model = Tag
     
 
-class TagCreateView(LoginRequiredMixin, CreateView):
+class TagCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Tag
     form_class = TagForm
     success_url = reverse_lazy('blog:tags')
+    success_message = 'Tag created'
