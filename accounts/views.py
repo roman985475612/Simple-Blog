@@ -15,7 +15,7 @@ from .forms import UserForm
 
 
 class RegisterFormView(FormView):
-    template_name = 'accounts/user_form.html'
+    template_name = 'accounts/register.html'
     form_class = UserCreationForm
     success_url = reverse_lazy('accounts:profile')
 
@@ -27,19 +27,14 @@ class RegisterFormView(FormView):
         login(self.request, user)
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Register'
-        return context
-
 
 class PasswordChangeView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/user_form.html'
+    template_name = 'accounts/password_change.html'
     form_class = PasswordChangeForm
     
     def get(self, request, *args, **kwargs):
         form = self.form_class(self.request.user)
-        return render(request, self.template_name, {'form': form, 'title': 'Change Password'})
+        return render(request, self.template_name, {'form': form})
         
     def post(self, request, *args, **kwargs):
         form = self.form_class(self.request.user, data=request.POST)
@@ -51,25 +46,15 @@ class PasswordChangeView(LoginRequiredMixin, TemplateView):
             login(self.request, user)
             messages.success(request, 'Password updated.')
             return redirect('accounts:profile')
-        return render(request, self.template_name, {'form': form, 'title': 'Change Password'})
+        return render(request, self.template_name, {'form': form})
 
 
 class UserProfileView(TemplateView):
     template_name = 'accounts/profile.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = self.request.user.username
-        return context
-
 
 class UserPostsView(TemplateView):
     template_name = 'accounts/user_posts.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'My Posts'
-        return context
 
 
 class UserUpdateView(LoginRequiredMixin, TemplateView):
@@ -78,7 +63,7 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(instance=self.request.user)
-        return render(request, self.template_name, {'form': form, 'title': 'Update'})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(instance=self.request.user, data=request.POST)
@@ -86,7 +71,7 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
             form.save()
             messages.success(request, 'Profile updated.')
             return redirect('accounts:profile')
-        return render(request, self.tempalte_name, {'form': form, 'title': 'Update'})
+        return render(request, self.tempalte_name, {'form': form})
 
 
 class UserDeleteView(LoginRequiredMixin, RedirectView):

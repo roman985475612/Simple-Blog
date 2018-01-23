@@ -2,12 +2,14 @@
 {% load bootstrap3 %}
 {% load static %}
 
+{% block title %}{{ post.title|capfirst }}{% endblock %}
+
 {% block content %}
+  <h3>{{ post.title|capfirst }}</h3>
   <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
   
   {% for tag in post.tags.all %}
-    <a href="{% url 'blog:tag_detail' tag.slug %}" 
-       class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
+    <a href="{% url 'blog:tag_detail' tag.slug %}" class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
   {% endfor %}
   
   <br><br>
@@ -15,29 +17,25 @@
   <p>{{ post.text }}</p>
   <br>
   <h4>
-    <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
-    <a href="{% url 'blog:post_like' post.id %}" style="text-decoration: none;"><span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes|default:"LIKE" }}</a>&nbsp;&nbsp;
-    <a href="{% url 'blog:post_dislike' post.id %}" style="text-decoration: none;"><span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes|default:"DISLIKE" }}</a>&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}
+    &nbsp;&nbsp;
+    <a href="{% url 'blog:post_like' post.id %}" style="text-decoration: none;">
+      <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes|default:"LIKE" }}
+    </a>
+    &nbsp;&nbsp;
+    <a href="{% url 'blog:post_dislike' post.id %}" style="text-decoration: none;">
+      <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes|default:"DISLIKE" }}
+    </a>
+    &nbsp;&nbsp;
     <span class="glyphicon glyphicon-star"></span> {{ post.rating }}
   </h4>
   <hr>
   <h4>{{ post.comments }} Comments</h4>
-  {% if user.is_authenticated %}
-    <form action="{% url 'blog:comment_add' post.id %}"
-          method="post" class="form" role="form">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% buttons %}
-        <button type="submit" class="btn btn-success">Submit</button>
-      {% endbuttons %}
-    </form>
-  {% else %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-          <h4>Please Log In, to leave a comments!</h4>
-      </div>
-    </div>
-  {% endif %}
+  <form action="{% url 'blog:comment_add' post.id %}" method="post" class="form" role="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
   
   <br><br>
       

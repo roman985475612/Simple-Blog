@@ -13,7 +13,7 @@ from .views import (
 app_name = 'accounts'
 
 urlpatterns = [
-    path('login/', auth_views.login, {'template_name': 'accounts/user_form.html'}, name='login'),
+    path('login/', auth_views.login, {'template_name': 'accounts/login.html'}, name='login'),
     path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
     path('register/', RegisterFormView.as_view(), name='register'),
     path('profile/', UserProfileView.as_view(), name='profile'),

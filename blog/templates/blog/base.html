@@ -8,7 +8,7 @@
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   <link rel="stylesheet" href="{% static 'style.css' %}">
-  <title>{{ title }} | Simple Blog</title>
+  <title>{% block title %}{% endblock %} | Simple Blog</title>
 </head>
 <body>
 
@@ -21,7 +21,6 @@
       
     <div class="col-sm-9">
         {% include 'blog/messages.html' %}
-        <h3>{{ title }}</h3>    
         {% block content %}{% endblock %}
     </div>
     

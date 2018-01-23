@@ -36,7 +36,6 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query
-        context['title'] = 'Home'
         return context
 
 
@@ -49,21 +48,11 @@ class PostByTagListView(ListView):
         self.post_list = self.tag.post_set.all()
         return self.post_list
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Posts'
-        return context
-
 
 class PostByCommentsListView(ListView):
     queryset = Post.objects.order_by('-comments')[:10]
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Posts'
-        return context
 
 
 class PostByLastCommentListView(ListView):
@@ -71,31 +60,16 @@ class PostByLastCommentListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Posts'
-        return context
-
 
 class PostByViewsListView(ListView):
     queryset = Post.objects.order_by('-views')[:10]
     template_name = 'blog/post_list.html'
     context_object_name = 'post_list'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Posts'
-        return context
-
 
 class PostByRatingListView(ListView):
     queryset = Post.objects.order_by('-rating')[:10]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Posts'
-        return context
-    
 
 class PostDetailView(DetailView):
     model = Post
@@ -117,7 +91,6 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
-        context['title'] = self.get_object().title
         return context
 
 
@@ -202,12 +175,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
+    template_name_suffix = '_create'
     success_url = reverse_lazy('accounts:posts')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add Post'
-        return context
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -218,16 +187,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
+    template_name_suffix = '_update'
     success_url = reverse_lazy('accounts:posts')
 
     def test_func(self):
         post_to_update = get_object_or_404(Post, pk=self.kwargs['pk'])
         return self.request.user == post_to_update.author
-        
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Update Post'
-        return context
         
     def form_valid(self, form):
         messages.success(self.request, 'Post updated.')
@@ -254,18 +219,8 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
 class TagListView(ListView):
     model = Tag
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Tags'
-        return context
-
 
 class TagCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     form_class = TagForm
     success_url = reverse_lazy('blog:tags')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Add Tag"
-        return context

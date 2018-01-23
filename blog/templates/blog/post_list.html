@@ -1,38 +1,36 @@
 {% extends "blog/base.html" %}
 
+{% block title %}Simple Blog{% endblock %}
+
 {% block content %}
 {% for post in post_list %}
-        <h4><small>RECENT POSTS</small></h4>
-        <hr>
-        <h2><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h2>
-        <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
-        {% for tag in post.tags.all %}
-            <a href="{% url 'blog:tag_detail' tag.slug %}" 
-               class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
-        {% endfor %}
-        <br><br>
-        <p>{{ post.text }}</p>
-        <br>
-        <h4>
-            <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
-            <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes }}&nbsp;&nbsp;
-            <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes }}&nbsp;&nbsp;
-            <span class="glyphicon glyphicon-star"></span> {{ post.rating }}&nbsp;&nbsp;
-            <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}&nbsp;&nbsp;
-            {% if post.comment_set.all %}
-                <i>Last comment:
-                {{ post.comment_set.first.pub_date|date:"M d, Y, P" }}
-                by <b>{{ post.comment_set.first.author }}</b>
-                {{ post.comment_set.first.text|truncatechars:50 }}</i>
-            {% endif %}
-        </h4>
-        <br>
-    {% empty %}
-        <br>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h4>List of Posts is Empty!</h4>
-            </div>
-        </div>
-    {% endfor %}
+  <h4><small>RECENT POSTS</small></h4>
+  <hr>
+  <h2><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h2>
+  <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
+  {% for tag in post.tags.all %}
+    <a href="{% url 'blog:tag_detail' tag.slug %}" class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
+  {% endfor %}
+  <br><br>
+  <p>{{ post.text }}</p>
+  <br>
+  <h4>
+    <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes }}&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes }}&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-star"></span> {{ post.rating }}&nbsp;&nbsp;
+    <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}&nbsp;&nbsp;
+    {% if post.comment_set.all %}
+      <i>Last comment: {{ post.comment_set.first.pub_date|date:"M d, Y, P" }} by <b>{{ post.comment_set.first.author }}</b> {{ post.comment_set.first.text|truncatechars:50 }}</i>
+    {% endif %}
+  </h4>
+  <br>
+{% empty %}
+  <br>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4>List of Posts is Empty!</h4>
+    </div>
+  </div>
+{% endfor %}
 {% endblock %}

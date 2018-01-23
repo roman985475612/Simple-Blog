@@ -1,7 +1,10 @@
 {% extends "blog/base.html" %}
 {% load bootstrap3 %}
 
+{% block title %}My Posts{% endblock %}
+
 {% block content %}
+<h3>My Posts</h3>
     {% if request.user.post_set.all %}
         <table class="table table-bordered table-hover">
             <thead>

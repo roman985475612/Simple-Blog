@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+<h3>Create Post</h3>
+<a href="{% url 'blog:tag_add' %}" target="_blank" class="btn btn-link">Add tag</a>
+<form action="" method="post" class="form" role="form">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <button type="submit" class="btn btn-success">Create</button>
+</form>
+{% endblock %}
