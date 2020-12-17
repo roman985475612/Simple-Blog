@@ -1,12 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import (
+    AuthenticationForm,
     PasswordChangeForm, 
     UserCreationForm,
     UserChangeForm
     )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.views.generic.base import View
 from django.views.generic import FormView, RedirectView, TemplateView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -26,6 +28,25 @@ class RegisterFormView(FormView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return super().form_valid(form)
+
+
+class LoginView(FormView):
+    template_name = 'accounts/login.html'
+    form_class = AuthenticationForm
+    success_url = reverse_lazy('accounts:profile')
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        return super().form_valid(form)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('blog:index')
 
 
 class PasswordChangeView(LoginRequiredMixin, TemplateView):
@@ -58,7 +79,7 @@ class UserPostsView(TemplateView):
 
 
 class UserUpdateView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/user_form.html'
+    template_name = 'accounts/profile.html'
     form_class = UserForm
 
     def get(self, request, *args, **kwargs):
@@ -71,7 +92,7 @@ class UserUpdateView(LoginRequiredMixin, TemplateView):
             form.save()
             messages.success(request, 'Profile updated.')
             return redirect('accounts:profile')
-        return render(request, self.tempalte_name, {'form': form})
+        return render(request, self.template_name, {'form': form})
 
 
 class UserDeleteView(LoginRequiredMixin, RedirectView):
@@ -81,4 +102,3 @@ class UserDeleteView(LoginRequiredMixin, RedirectView):
         request.user.delete()
         messages.success(request, 'User deleted.')
         return super().post(request, *args, **kwargs)
-

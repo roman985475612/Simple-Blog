@@ -21,6 +21,7 @@ from .forms import CommentForm, PostForm, TagForm
 
 class PostListView(ListView):
     template_name = 'blog/post_list.html'
+    paginate_by = 2
     context_object_name = 'post_list'
 
     def get_queryset(self):
@@ -41,8 +42,9 @@ class PostListView(ListView):
 
 
 class PostByTagListView(ListView):
-    template_name = 'blog/post_list.html'
+    template_name = 'blog/post_grid.html'
     context_object_name = 'post_list'
+    paginate_by = 2
 
     def get_queryset(self):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])

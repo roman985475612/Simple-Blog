@@ -1,36 +1,67 @@
-{% extends "blog/base.html" %}
+{% extends "blog/layouts/base.html" %}
 
 {% block title %}Simple Blog{% endblock %}
 
 {% block content %}
-{% for post in post_list %}
-  <h4><small>RECENT POSTS</small></h4>
-  <hr>
-  <h2><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h2>
-  <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
-  {% for tag in post.tags.all %}
-    <a href="{% url 'blog:tag_detail' tag.slug %}" class="btn btn-{{ tag.color }} btn-xs">{{ tag.title }}</a>
-  {% endfor %}
-  <br><br>
-  <p>{{ post.text }}</p>
-  <br>
-  <h4>
-    <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes }}&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes }}&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-star"></span> {{ post.rating }}&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}&nbsp;&nbsp;
-    {% if post.comment_set.all %}
-      <i>Last comment: {{ post.comment_set.first.pub_date|date:"M d, Y, P" }} by <b>{{ post.comment_set.first.author }}</b> {{ post.comment_set.first.text|truncatechars:50 }}</i>
+    {% if post_list.count > 0 %}
+        {% for post in post_list %}
+            <article class="post">
+                <div class="post-thumb">
+                    <a href="{{ post.get_absolute_url }}"><img src="{{ post.get_image }}" alt=""></a>
+                    <a href="{{ post.get_absolute_url }}" class="post-thumb-overlay text-center">
+                        <div class="text-uppercase text-center">View Post</div>
+                    </a>
+                </div>
+                <div class="post-content">
+                    <header class="entry-header text-center text-uppercase">
+                        <h6><a href="#"> Travel</a></h6>
+                        <h1 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+                    </header>
+                    <div class="entry-content">
+                        <p>{{ post.text|safe|truncatewords:50 }}</p>
+                        <div class="btn-continue-reading text-center text-uppercase">
+                            <a href="{{ post.get_absolute_url }}" class="more-link">Continue Reading</a>
+                        </div>
+                    </div>
+                    <div class="social-share">
+                        <span class="social-share-title pull-left text-capitalize">By <a href="#">{{ post.author|title }}</a> On {{ post.upd_date|date:"M d, Y" }}</span>
+                        <ul class="text-center pull-right">
+                            <li><a class="s-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a class="s-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="s-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a class="s-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a class="s-instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+
+        {% include 'blog/layouts/pagination.html' %}
+    {% else %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>List of Posts is Empty!</h4>
+            </div>
+        </div>
     {% endif %}
-  </h4>
-  <br>
-{% empty %}
-  <br>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h4>List of Posts is Empty!</h4>
-    </div>
-  </div>
-{% endfor %}
+
+      {% comment %} <h4><small>RECENT POSTS</small></h4>
+      <hr>
+      <h2><a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a></h2>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by {{ post.author|title }}, {{ post.upd_date|date:"M d, Y" }}</h5>
+      <br><br>
+      <p>{{ post.text }}</p>
+      <br>
+      <h4>
+        <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-thumbs-up"></span> {{ post.likes }}&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-thumbs-down"></span> {{ post.dislikes }}&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-star"></span> {{ post.rating }}&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-comment"></span> {{ post.comments }}&nbsp;&nbsp;
+        {% if post.comment_set.all %}
+          <i>Last comment: {{ post.comment_set.first.pub_date|date:"M d, Y, P" }} by <b>{{ post.comment_set.first.author }}</b> {{ post.comment_set.first.text|truncatechars:50 }}</i>
+        {% endif %}
+      </h4> {% endcomment %}
+    
 {% endblock %}

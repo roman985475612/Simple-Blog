@@ -1,8 +1,12 @@
+asgiref==3.3.1
 dj-database-url==0.4.2
 dj-static==0.0.6
-Django==2.0.1
+Django==3.1.4
 django-bootstrap3==9.1.0
 gunicorn==19.7.1
-psycopg2==2.7.3.2
+mysqlclient @ file:///C:/Users/%D0%A0%D0%BE%D0%BC%D0%B0%D0%BD/Downloads/OpenServer/domains/learning-log/mysqlclient-1.4.6-cp39-cp39-win_amd64.whl
+Pillow==8.0.1
+pytils==0.3
 pytz==2017.3
+sqlparse==0.4.1
 static3==0.7.0

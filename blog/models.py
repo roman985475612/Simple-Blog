@@ -5,6 +5,8 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
+from pytils.translit import slugify
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
@@ -19,19 +21,31 @@ class Post(models.Model):
     rating = models.SmallIntegerField(default=0)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     tags = models.ManyToManyField('Tag')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Фото')
+    slug = models.SlugField(unique=True)
 
     class Meta:
         db_table = 'posts'
+        verbose_name = 'Запись'
+        verbose_name_plural = 'Записи'
+        ordering = ['-upd_date']
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', kwargs={'pk': self.id})
+        return reverse('blog:post_detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
         self.rating = self.likes - self.dislikes
         super().save(*args, **kwargs)
 
     def __str__(self):
         return '{} by {}'.format(self.title[:15], self.author)
+
+    def get_image(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return 'https://fakeimg.pl/300x200/?text=Fake%20Img&font=lobster'
 
 
 class Comment(models.Model):
@@ -70,7 +84,7 @@ class Tag(models.Model):
                              choices=TAG_COLOR_CHOICES,
                              default=DEFAULT)
     title = models.CharField(max_length=20, unique=True)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True)
 
     class Meta:
         db_table = 'tags'

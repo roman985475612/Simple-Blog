@@ -1,0 +1,42 @@
+{% extends "blog/layouts/base.html" %}
+
+{% block title %}Simple Blog{% endblock %}
+
+{% block content %}
+    {% if post_list.count > 0 %}
+        <div class="row">
+        {% for post in post_list %}
+            <div class="col-md-6">
+                <article class="post post-grid">
+                    <div class="post-thumb">
+                        <a href="{{ post.get_absolute_url }}"><img src="{{ post.get_image }}" alt=""></a>
+                        <a href="{{ post.get_absolute_url }}" class="post-thumb-overlay text-center">
+                            <div class="text-uppercase text-center">View Post</div>
+                        </a>
+                    </div>
+                    <div class="post-content">
+                        <header class="entry-header text-center text-uppercase">
+                            <h6><a href="#"> Travel</a></h6>
+                            <h2 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                        </header>
+                        <div class="entry-content">
+                            <p>{{ post.text|safe|truncatewords:50 }}</p>
+                            <div class="social-share">
+                                <span class="social-share-title pull-left text-capitalize">By <a href="#">{{ post.author|title }}</a> On {{ post.upd_date|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+        </div>
+        {% include 'blog/layouts/pagination.html' %}
+    {% else %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>List of Posts is Empty!</h4>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
