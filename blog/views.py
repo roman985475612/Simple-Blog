@@ -90,6 +90,8 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form_class
+        context['prev_post'] = context['post'].has_prev()
+        context['next_post'] = context['post'].has_next()
         return context
 
 

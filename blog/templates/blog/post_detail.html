@@ -37,38 +37,36 @@
         invidunt ut labore et dolore magna aliquyam erat.</p>
 </div><!--top comment end-->
 <div class="row"><!--blog next previous-->
-    <div class="col-md-6">
-        <div class="single-blog-box">
-            <a href="#">
-                <img src="assets/images/blog-next.jpg" alt="">
-
-                <div class="overlay">
-
-                    <div class="promo-text">
-                        <p><i class=" pull-left fa fa-angle-left"></i></p>
-                        <h5>Rubel is doing Cherry theme</h5>
+    {% if prev_post %}
+        <div class="col-md-6">
+            <div class="single-blog-box">
+                <a href="{{ prev_post.0.get_absolute_url }}">
+                    <img src="{{ prev_post.0.get_image }}" alt="">
+                    <div class="overlay">
+                        <div class="promo-text">
+                            <p><i class="pull-left fa fa-angle-left"></i></p>
+                            <h5>{{ prev_post.0.title }}</h5>
+                        </div>
                     </div>
-                </div>
-
-
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="single-blog-box">
-            <a href="#">
-                <img src="assets/images/blog-next.jpg" alt="">
-
-                <div class="overlay">
-                    <div class="promo-text">
-                        <p><i class=" pull-right fa fa-angle-right"></i></p>
-                        <h5>Rubel is doing Cherry theme</h5>
-
+    {% endif %}
+    {% if next_post %}
+        <div class="col-md-6">
+            <div class="single-blog-box">
+                <a href="{{ next_post.0.get_absolute_url }}">
+                    <img src="{{ next_post.0.get_image }}" alt="">
+                    <div class="overlay">
+                        <div class="promo-text">
+                            <p><i class=" pull-right fa fa-angle-right"></i></p>
+                            <h5>{{ next_post.0.title }}</h5>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 </div><!--blog next previous end-->
 <div class="related-post-carousel"><!--related post carousel-->
     <div class="related-heading">

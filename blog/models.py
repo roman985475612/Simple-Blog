@@ -81,6 +81,19 @@ class Post(models.Model):
         else:
             return 'https://fakeimg.pl/300x200/?text=Fake%20Img&font=lobster'
 
+    def related(self):
+        return Post.objects.exclude(pk=self.pk)
+
+    def has_prev(self):
+        posts = Post.objects.filter(pk__lt=self.pk)
+        prev_pk = posts.aggregate(models.Max('pk'))['pk__max']
+        return Post.objects.filter(pk=prev_pk) 
+
+    def has_next(self):
+        posts = Post.objects.filter(pk__gt=self.pk)
+        next_pk = posts.aggregate(models.Min('pk'))['pk__min']
+        return Post.objects.filter(pk=next_pk) 
+
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
