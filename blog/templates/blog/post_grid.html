@@ -1,6 +1,6 @@
 {% extends "blog/layouts/base.html" %}
 
-{% block title %}Simple Blog{% endblock %}
+{% block title %}{{ title }} | {% endblock %}
 
 {% block content %}
     {% if post_list.count > 0 %}
@@ -16,7 +16,7 @@
                     </div>
                     <div class="post-content">
                         <header class="entry-header text-center text-uppercase">
-                            <h6><a href="#"> Travel</a></h6>
+                            <h6><a href="{{ post.category.get_absolute_url }}"> {{ post.category }}</a></h6>
                             <h2 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
                         </header>
                         <div class="entry-content">

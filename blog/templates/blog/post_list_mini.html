@@ -1,0 +1,41 @@
+{% extends "blog/layouts/base.html" %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+    {% if post_list.count > 0 %}
+        {% for post in post_list %}
+            <article class="post post-list">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="post-thumb">
+                            <a href="{{ post.get_absolute_url }}"><img src="{{ post.get_image }}" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="post-content">
+                            <header class="entry-header text-center text-uppercase">
+                                <h6><a href="{{ post.category.get_absolute_url }}"> {{ post.category }}</a></h6>
+                                <h2 class="entry-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                            </header>
+                            <div class="entry-content">
+                                <p>{{ post.text|safe|truncatewords:20 }}</p>
+                                <div class="social-share">
+                                    <span class="social-share-title pull-left text-capitalize">By <a href="#">{{ post.author|title }}</a> On {{ post.upd_date|date:"M d, Y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+        {% include 'blog/layouts/pagination.html' %}
+    {% else %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>List of Posts is Empty!</h4>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

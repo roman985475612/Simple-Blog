@@ -13,8 +13,7 @@ from .views import (
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
-    TagCreateView,
-    TagListView,
+    PostByCategory,
     PostByTagListView
     )
 
@@ -33,7 +32,6 @@ urlpatterns = [
     path('post/<slug:slug>/like/'       , PostLikeRedirectView.as_view()   , name='post_like'),
     path('post/<slug:slug>/dislike/'    , PostDislikeRedirectView.as_view(), name='post_dislike'),
     path('post/<slug:slug>/comment/add/', CommentCreateView.as_view()      , name='comment_add'),
-    # path('tag/'                         , TagListView.as_view()            , name='tags'),
-    # path('tag/add/'                     , TagCreateView.as_view()          , name='tag_add'),
+    path('category/<slug:slug>/'        , PostByCategory.as_view()         , name='category'),
     path('tag/<slug:slug>/'             , PostByTagListView.as_view()      , name='tag_detail'),
 ]

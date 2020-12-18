@@ -15,7 +15,7 @@ from django.views.generic import (
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
-from .models import Post, Comment, Tag, View, Button
+from .models import Post, Category, Comment, Tag, View, Button
 from .forms import CommentForm, PostForm, TagForm
 
 
@@ -41,6 +41,22 @@ class PostListView(ListView):
         return context
 
 
+class PostByCategory(ListView):
+    template_name = 'blog/post_list_mini.html'
+    context_object_name = 'post_list'
+    paginate_by = 2
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
+        self.post_list = self.category.posts.all();
+        return self.post_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.category
+        return context
+
+
 class PostByTagListView(ListView):
     template_name = 'blog/post_grid.html'
     context_object_name = 'post_list'
@@ -50,6 +66,11 @@ class PostByTagListView(ListView):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])
         self.post_list = self.tag.post_set.all()
         return self.post_list
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.tag
+        return context
 
 
 class PostByCommentsListView(ListView):
@@ -80,16 +101,13 @@ class PostDetailView(DetailView):
     form_class = CommentForm
 
     def get_object(self):
-        object = super().get_object()
-        created = View.objects.get_or_create(
-            post=object,
+        obj = super().get_object()
+        View.objects.get_or_create(
+            post=obj,
             remote_addr=self.request.META['REMOTE_ADDR']
-        )[1]
-        if created:
-            object.views += 1
-            object.save()
-
-        return object
+        )
+        obj.refresh_from_db()
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -223,14 +241,3 @@ class PostDeleteView(UserPassesTestMixin, RedirectView):
     
     def get_redirect_url(self, *args, **kwargs):
         return reverse('accounts:posts')
-
-
-class TagListView(ListView):
-    model = Tag
-    
-
-class TagCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = Tag
-    form_class = TagForm
-    success_url = reverse_lazy('blog:tags')
-    success_message = 'Tag created'

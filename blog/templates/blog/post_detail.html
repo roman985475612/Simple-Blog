@@ -1,6 +1,6 @@
 {% extends 'blog/layouts/base.html' %}
 
-{% block title %}{{ post.title|capfirst }}{% endblock %}
+{% block title %}{{ post.title|capfirst }} | {% endblock %}
 
 {% block content %}
 <article class="post">
@@ -9,7 +9,7 @@
     </div>
     <div class="post-content">
         <header class="entry-header text-center text-uppercase">
-            <h6><a href="#"> Travel</a></h6>
+            <h6><a href="{{ post.category.get_absolute_url }}"> {{ post.category }}</a></h6>
             <h1 class="entry-title">{{ post.title|capfirst }}</h1>
         </header>
         <div class="entry-content">{{ post.text }}</div>

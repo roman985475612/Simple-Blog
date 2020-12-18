@@ -8,6 +8,23 @@ from django.urls import reverse
 from pytils.translit import slugify
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Наименование')
+    slug = models.SlugField(max_length=255, unique=True, verbose_name='URL')
+
+    def get_absolute_url(self):
+        return reverse('blog:category', kwargs={'slug': self.slug})
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'categories'
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['title']
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
@@ -20,6 +37,7 @@ class Post(models.Model):
     dislikes = models.PositiveSmallIntegerField(default=0)
     rating = models.SmallIntegerField(default=0)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts', default='1', verbose_name='Категория')
     tags = models.ManyToManyField('Tag')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Фото')
     slug = models.SlugField(unique=True)
@@ -32,6 +50,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'slug': self.slug})
+
+    def view(self):
+        self.views = models.F('views') + 1 
+        self.save()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -108,6 +130,11 @@ class View(models.Model):
 
     def __str__(self):
         return '{} on {} from {}'.format(self.post, self.remote_addr, self.date_viewed)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.post.view()
+        super().save(*args, **kwargs)
 
 
 class Button(models.Model):

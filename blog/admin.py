@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Post, Comment, Tag
+from .models import Post, Category, Comment, Tag
 
 
 @admin.register(Post)
@@ -12,8 +12,8 @@ class PostAdmin(admin.ModelAdmin):
         return ', '.join([tag.title for tag in obj.tags.all()])
     tags_list_as_string.short_description = 'Tags'
 
-    list_display = ('title', 'author', 'pub_date', 'upd_date', 'tags_list_as_string', 'get_photo')
-    list_filter = ('author', 'tags',)
+    list_display = ('title', 'author', 'category', 'pub_date', 'upd_date', 'tags_list_as_string', 'get_photo')
+    list_filter = ('author', 'category', 'tags',)
     search_fields = ['title', 'text']
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('views', 'likes', 'dislikes', 'rating', 'comments')
@@ -27,6 +27,14 @@ class PostAdmin(admin.ModelAdmin):
             return '-'
 
     get_photo.short_description = 'Фото'
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+    list_display_links = ('id', 'title')
+    search_fields = ('title',)
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Comment)
