@@ -29,6 +29,9 @@ class PostManager(models.Manager):
     def get_popular(self, cnt=3):
         return Post.objects.order_by('-views')[:cnt]
 
+    def get_recent(self, cnt=3):
+        return Post.objects.order_by('-upd_date')[:cnt]
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)

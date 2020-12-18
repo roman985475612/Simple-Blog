@@ -7,10 +7,12 @@ register = template.Library()
 
 @register.inclusion_tag('blog/widgets/category_widget.html')
 def category_widget():
-    categories = Category.objects.all()
-    return {'categories': categories}
+    return {'categories': Category.objects.all()}
 
 @register.inclusion_tag('blog/widgets/popular_posts_widget.html')
 def popular_posts_widget():
-    popular_posts = Post.objects.get_popular()
-    return {'popular_posts': popular_posts}
+    return {'popular_posts': Post.objects.get_popular()}
+
+@register.inclusion_tag('blog/widgets/recent_posts_widget.html')
+def recent_posts_widget():
+    return {'recent_posts': Post.objects.get_recent()}
