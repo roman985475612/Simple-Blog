@@ -16,3 +16,7 @@ def popular_posts_widget():
 @register.inclusion_tag('blog/widgets/recent_posts_widget.html')
 def recent_posts_widget():
     return {'recent_posts': Post.objects.get_recent()}
+
+@register.inclusion_tag('blog/widgets/featured_posts_widget.html')
+def featured_posts_widget():
+    return {'featured_posts': Post.objects.get_featured()}

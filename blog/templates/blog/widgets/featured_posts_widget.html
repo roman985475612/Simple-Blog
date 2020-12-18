@@ -1,0 +1,13 @@
+<div id="widget-feature" class="owl-carousel">
+    {% for post in featured_posts %}
+        <div class="item">
+            <div class="feature-content">
+                <img src="{{ post.get_image }}" alt="">
+                <a href="{{ post.get_absolute_url }}" class="overlay-text text-center">
+                    <h5 class="text-uppercase">{{ post.title }}</h5>
+                    <p>{{ post.text|safe|truncatewords:8 }}</p>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -32,6 +32,9 @@ class PostManager(models.Manager):
     def get_recent(self, cnt=3):
         return Post.objects.order_by('-upd_date')[:cnt]
 
+    def get_featured(self, cnt=3):
+        return Post.objects.order_by('-rating')[:cnt]
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)

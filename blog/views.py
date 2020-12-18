@@ -73,28 +73,6 @@ class PostByTagListView(ListView):
         return context
 
 
-class PostByCommentsListView(ListView):
-    queryset = Post.objects.order_by('-comments')[:10]
-    template_name = 'blog/post_list.html'
-    context_object_name = 'post_list'
-
-
-class PostByLastCommentListView(ListView):
-    queryset = Post.objects.order_by('-last_comment_date')[:10]
-    template_name = 'blog/post_list.html'
-    context_object_name = 'post_list'
-
-
-class PostByViewsListView(ListView):
-    queryset = Post.objects.order_by('-views')[:10]
-    template_name = 'blog/post_list.html'
-    context_object_name = 'post_list'
-
-
-class PostByRatingListView(ListView):
-    queryset = Post.objects.order_by('-rating')[:10]
-
-
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'

@@ -2,17 +2,13 @@ from django.urls import path
 
 from .views import (
     PostListView,
-    PostByCommentsListView,
-    PostByLastCommentListView,
-    PostByViewsListView,
-    PostByRatingListView,
     PostDetailView,
-    PostLikeRedirectView,
-    PostDislikeRedirectView,
-    CommentCreateView,
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
+    PostLikeRedirectView,
+    PostDislikeRedirectView,
+    CommentCreateView,
     PostByCategory,
     PostByTagListView
     )
@@ -21,10 +17,6 @@ app_name = 'blog'
 
 urlpatterns = [
     path(''                             , PostListView.as_view()           , name='index'),
-    path('most-commented/'              , PostByCommentsListView.as_view() , name='most_commented'),
-    path('last-commented/'              , PostByLastCommentListView.as_view(), name='last_commented'),
-    path('most-viewed/'                 , PostByViewsListView.as_view()    , name='most_viewed'),
-    path('rating/'                      , PostByRatingListView.as_view()   , name='rating'),
     path('post/add/'                    , PostCreateView.as_view()         , name='post_create'),
     path('post/<slug:slug>/'            , PostDetailView.as_view()         , name='post_detail'),
     path('post/<slug:slug>/update/'     , PostUpdateView.as_view()         , name='post_update'),
