@@ -1,0 +1,8 @@
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="{{ category.get_absolute_url }}">{{ category }}</a>
+            <span class="post-count pull-right"> ({{ category.posts.count }})</span>
+        </li>
+    {% endfor %}
+</ul>
