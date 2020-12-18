@@ -1,4 +1,4 @@
-{% load category_widget %}
+{% load widgets %}
 <div class="primary-sidebar">
     <aside class="widget news-letter">
         <h3 class="widget-title text-uppercase text-center">Get Newsletter</h3>
@@ -12,46 +12,7 @@
     </aside>
     <aside class="widget">
         <h3 class="widget-title text-uppercase text-center">Popular Posts</h3>
-
-        <div class="popular-post">
-
-
-            <a href="#" class="popular-img"><img src="assets/images/p1.jpg" alt="">
-
-                <div class="p-overlay"></div>
-            </a>
-
-            <div class="p-content">
-                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                <span class="p-date">February 15, 2016</span>
-
-            </div>
-        </div>
-        <div class="popular-post">
-
-            <a href="#" class="popular-img"><img src="assets/images/p1.jpg" alt="">
-
-                <div class="p-overlay"></div>
-            </a>
-
-            <div class="p-content">
-                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                <span class="p-date">February 15, 2016</span>
-            </div>
-        </div>
-        <div class="popular-post">
-
-
-            <a href="#" class="popular-img"><img src="assets/images/p1.jpg" alt="">
-
-                <div class="p-overlay"></div>
-            </a>
-
-            <div class="p-content">
-                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                <span class="p-date">February 15, 2016</span>
-            </div>
-        </div>
+        {% popular_posts_widget %}
     </aside>
     <aside class="widget">
         <h3 class="widget-title text-uppercase text-center">Featured Posts</h3>

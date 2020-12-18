@@ -1,0 +1,12 @@
+{% for post in popular_posts %}
+    <div class="popular-post">
+        <a href="{{ post.get_absolute_url }}" class="popular-img">
+            <img src="{{ post.get_image }}" alt="">
+            <div class="p-overlay"></div>
+        </a>
+        <div class="p-content">
+            <a href="{{ post.get_absolute_url }}" class="text-uppercase">{{ post.title }}</a>
+            <span class="p-date">{{ post.upd_date|date:"M d, Y" }}</span>
+        </div>
+    </div>
+{% endfor %}

@@ -1,6 +1,7 @@
 from django import template
 
 from ..models import Category
+from ..models import Post
 
 register = template.Library()
 
@@ -8,3 +9,8 @@ register = template.Library()
 def category_widget():
     categories = Category.objects.all()
     return {'categories': categories}
+
+@register.inclusion_tag('blog/widgets/popular_posts_widget.html')
+def popular_posts_widget():
+    popular_posts = Post.objects.get_popular()
+    return {'popular_posts': popular_posts}

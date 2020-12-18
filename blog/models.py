@@ -25,6 +25,11 @@ class Category(models.Model):
         ordering = ['title']
 
 
+class PostManager(models.Manager):
+    def get_popular(self, cnt=3):
+        return Post.objects.order_by('-views')[:cnt]
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     pub_date = models.DateTimeField('publication date', auto_now_add=True)
@@ -41,6 +46,7 @@ class Post(models.Model):
     tags = models.ManyToManyField('Tag')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Фото')
     slug = models.SlugField(unique=True)
+    objects = PostManager()
 
     class Meta:
         db_table = 'posts'
