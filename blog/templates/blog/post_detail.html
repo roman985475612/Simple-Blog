@@ -73,57 +73,14 @@
         <h4>You might also like</h4>
     </div>
     <div class="items">
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-1.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
-
-
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-2.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
-
-
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-3.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
-
-
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-1.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
-
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-2.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
-
-
-        <div class="single-item">
-            <a href="#">
-                <img src="assets/images/related-post-3.jpg" alt="">
-
-                <p>Just Wondering at Beach</p>
-            </a>
-        </div>
+        {% for item in post.related %}
+            <div class="single-item">
+                <a href="{{ item.get_absolute_url }}">
+                    <img src="{{ item.get_image }}" alt="">
+                    <p>{{ item.title }}</p>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </div><!--related post carousel-->
 <div class="bottom-comment"><!--bottom comment-->
